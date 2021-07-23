@@ -38,25 +38,7 @@ public class CableFiller : Puzzle
     {
         if(Input.GetMouseButtonDown(0))
         {
-            Vector2Int pointerPos = GetPointerRoundedWorldPositions();
-            //currentSegment = CheckForPoints(pointerPos, out lineStart);
-            currentSegment = CheckForPoints(pointerPos);
-            if (currentSegment != -1)
-            {
-                drawing = true;
-                EnableNeighboursOnly(pointerPos);
-                if(segments[currentSegment].HasActiveLine())
-                {
-                    if(segments[currentSegment].GetLastPosition() != pointerPos || IsOverlappingWithAnOrigin(pointerPos))
-                    {
-                        DeleteLine(segments[currentSegment]);
-                    }
-                }
-                segments[currentSegment].LinePoints.Add(new Vector3(pointerPos.x, pointerPos.y,0));
-                segments[currentSegment].UpdatePoints();
-                segments[currentSegment].Line.enabled = true;
-                //Debug.Log(currentSegment + " index segment selected");
-            }
+            StartDrawingInstructions();
         }
         if (drawing)
         {
@@ -64,12 +46,12 @@ public class CableFiller : Puzzle
 
             if (Physics2D.OverlapCircle(pointerPos, 0.25f))
             {
-                if(segments[currentSegment].LinePoints.Contains(new Vector3(pointerPos.x,pointerPos.y,0)))
+                if (segments[currentSegment].LinePoints.Contains(new Vector3(pointerPos.x, pointerPos.y, 0)))
                 {
                     ReformatSegment(currentSegment, pointerPos);
                 }
 
-                if(IsOverlappingWithDifferentColorOrigin(pointerPos, currentSegment, grid[pointerPos.x,pointerPos.y].SegIndex)) // si se solapa la linea con un origen de distinto color
+                if (IsOverlappingWithDifferentColorOrigin(pointerPos, currentSegment, grid[pointerPos.x, pointerPos.y].SegIndex)) // si se solapa la linea con un origen de distinto color
                 {
                     CancelDrawing();
                     return;
@@ -77,17 +59,24 @@ public class CableFiller : Puzzle
                 if (IsOverlappingWithDifferentColorLine(pointerPos, currentSegment)) // si se solapa la linea con otra
                 {
                     //Debug.Log("Overlapping with different color");
-                    if(grid[pointerPos.x,pointerPos.y].SegIndex >= 0)
+                    if (grid[pointerPos.x, pointerPos.y].SegIndex >= 0)
                     {
                         Debug.Log("Crossed anothe line");
                         ReformatSegment(grid[pointerPos.x, pointerPos.y].SegIndex, pointerPos);
                     }
                 }
+                int overlappingIndex = -1;
+                if (IsOverlappingWithAnyOrigin(pointerPos, out overlappingIndex))
+                {
+                    if (overlappingIndex == currentSegment)
+                    {
+                        DrawLine(pointerPos);
+                        CancelDrawing();
+                        return;
+                    }
+                }
 
-                EnableNeighboursOnly(pointerPos);
-                grid[pointerPos.x, pointerPos.y].SetSegmentIndex(currentSegment);
-                segments[currentSegment].LinePoints.Add(new Vector3(pointerPos.x, pointerPos.y, 0));
-                segments[currentSegment].UpdatePoints();
+                DrawLine(pointerPos);
 
             }
         }
@@ -96,6 +85,37 @@ public class CableFiller : Puzzle
             CancelDrawing();
             CheckForCompletition();
         }
+    }
+
+    private void StartDrawingInstructions()
+    {
+        Vector2Int pointerPos = GetPointerRoundedWorldPositions();
+        //currentSegment = CheckForPoints(pointerPos, out lineStart);
+        currentSegment = CheckForPoints(pointerPos);
+        if (currentSegment != -1)
+        {
+            drawing = true;
+            EnableNeighboursOnly(pointerPos);
+            if (segments[currentSegment].HasActiveLine())
+            {
+                if (segments[currentSegment].GetLastPosition() != pointerPos || IsOverlappingWithAnyOrigin(pointerPos))
+                {
+                    DeleteLine(segments[currentSegment]);
+                }
+            }
+            segments[currentSegment].LinePoints.Add(new Vector3(pointerPos.x, pointerPos.y, 0));
+            segments[currentSegment].UpdatePoints();
+            segments[currentSegment].Line.enabled = true;
+            //Debug.Log(currentSegment + " index segment selected");
+        }
+    }
+
+    private void DrawLine(Vector2Int pointerPos)
+    {
+        EnableNeighboursOnly(pointerPos);
+        grid[pointerPos.x, pointerPos.y].SetSegmentIndex(currentSegment);
+        segments[currentSegment].LinePoints.Add(new Vector3(pointerPos.x, pointerPos.y, 0));
+        segments[currentSegment].UpdatePoints();
     }
 
     private void CheckForCompletition()
@@ -136,7 +156,7 @@ public class CableFiller : Puzzle
         {
             Vector3 lineWorldPos = cableSegment.Line.GetPosition(i);
             Vector2Int gPos = new Vector2Int((int)lineWorldPos.x, (int)lineWorldPos.y);
-            if(!IsOverlappingWithAnOrigin(gPos))
+            if(!IsOverlappingWithAnyOrigin(gPos))
             {
                 grid[gPos.x, gPos.y].SetSegmentIndex(-1);
             }
@@ -152,7 +172,7 @@ public class CableFiller : Puzzle
         {
             Vector3 tPos = segments[idx].Line.GetPosition(i);
 
-            if(!IsOverlappingWithAnOrigin(new Vector2Int((int)tPos.x, (int)tPos.y)))
+            if(!IsOverlappingWithAnyOrigin(new Vector2Int((int)tPos.x, (int)tPos.y)))
             {
                 grid[(int)tPos.x, (int)tPos.y].SetSegmentIndex(-1);
             }
@@ -165,7 +185,21 @@ public class CableFiller : Puzzle
         segments[idx].UpdatePoints();
     }
 
-    private bool IsOverlappingWithAnOrigin(Vector2Int pos)
+    private bool IsOverlappingWithAnyOrigin(Vector2Int pos, out int segmentIndex)
+    {
+        for (int i = 0; i < segments.Length; i++)
+        {
+            if (segments[i].Start == pos || segments[i].End == pos)
+            {
+                segmentIndex = i;
+                return true;
+            }
+        }
+        segmentIndex = -1;
+        return false;
+    }
+
+    private bool IsOverlappingWithAnyOrigin(Vector2Int pos)
     {
         for (int i = 0; i < segments.Length; i++)
         {
