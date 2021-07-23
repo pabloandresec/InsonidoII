@@ -4,8 +4,8 @@ using System;
 
 public class Heap<T> where T : IHeapItem<T> {
 	
-	T[] items;
-	int currentItemCount;
+	private T[] items;
+    private int currentItemCount;
 	
 	public Heap(int maxHeapSize) {
 		items = new T[maxHeapSize];

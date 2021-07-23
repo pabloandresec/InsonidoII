@@ -157,7 +157,7 @@ public static class Utils
 
     public static void SetCameraInMiddleOfGrid(Vector3 pieceSize, Camera cam, Vector2Int gridSize, float gridBorder)
     {
-        Debug.Log("Centering camera");
+        //Debug.Log("Centering camera");
         Vector3 camPos = new Vector3(((float)gridSize.x / 2f) - (pieceSize.x / 2), ((float)gridSize.y / 2f) - (pieceSize.y / 2), -10);
         cam.transform.position = camPos;
 
