@@ -173,61 +173,6 @@ public static class Utils
     }
 }
 
-
-[Serializable]
-public struct Word
-{
-    public int face;
-    public string text;
-    public Vector2Int index;
-    public Vector2Int dir;
-
-    public string Serialize()
-    {
-        return text + "/" + index.x + "," + index.y + "/" + dir.x + "," + dir.y + "/" + face;
-    }
-
-    public static Word DeserializeAWord(string serializedWord)
-    {
-        Word t;
-        string[] splits = serializedWord.Split('/');
-        t.text = splits[0];
-
-        string[] stringIndex = splits[1].Split(',');
-        t.index = new Vector2Int(int.Parse(stringIndex[0]), int.Parse(stringIndex[1]));
-
-        string[] stringDir = splits[2].Split(',');
-        t.dir = new Vector2Int(int.Parse(stringDir[0]), int.Parse(stringDir[1]));
-
-        string face = splits[3];
-        t.face = int.Parse(face);
-
-        return t;
-    }
-
-    public static string[] DeserializeData(string data)
-    {
-        string[] wordData = data.Split('|');
-        if (wordData.Length > 1)
-        {
-            return wordData;
-        }
-        return null;
-    }
-
-
-    public static Word[] GetWordsFromArray(string[] parsedData)
-    {
-        List<Word> tWords = new List<Word>();
-        for (int i = 1; i < parsedData.Length; i++)
-        {
-            Word w = DeserializeAWord(parsedData[i]);
-            tWords.Add(w);
-        }
-        return tWords.ToArray();
-    }
-}
-
 [Serializable]
 public struct IntRange
 {
