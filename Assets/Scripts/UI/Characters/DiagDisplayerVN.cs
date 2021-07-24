@@ -11,10 +11,14 @@ public class DiagDisplayerVN : DiagDisplayer
 {
     [SerializeField] protected TextMeshProUGUI nameTMP;
     [SerializeField] protected TextMeshProUGUI textboxTMP;
+    [SerializeField] protected Image character;
+
+    private AudioController audioController;
 
     private void Start()
     {
-        if(startOnStartLevel)
+        audioController = GameObject.FindGameObjectWithTag("AudioController").GetComponent<AudioController>();
+        if (startOnStartLevel)
         {
             PrepareAndStart();
         }
@@ -61,6 +65,10 @@ public class DiagDisplayerVN : DiagDisplayer
         foreach (RectTransform rt in positions)
         {
             string characterPos = dialogPack.Dialog[currentLine].CharacterPos.ToString();
+            Debug.Log(characterPos + " Position selected");
+
+            character.sprite = dialogPack.Dialog[currentLine].Character;
+
             if (rt.transform.name == characterPos)
             {
                 ShowCharacter(rt, () => {
@@ -78,6 +86,10 @@ public class DiagDisplayerVN : DiagDisplayer
             {
                 HideCharacter(rt);
             }
+        }
+        if(dialogPack.Dialog[currentLine].Clip != null)
+        {
+            audioController.PlaySFX(dialogPack.Dialog[currentLine].Clip);
         }
     }
 

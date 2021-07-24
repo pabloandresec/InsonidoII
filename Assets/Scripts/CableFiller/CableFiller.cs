@@ -273,6 +273,10 @@ public class CableFiller : Puzzle
 
     private int CheckForPoints(Vector2Int pointerPoint)
     {
+        if(!Utils.IsInBounds(pointerPoint, gridSize))
+        {
+            return -1;
+        }
         return grid[pointerPoint.x, pointerPoint.y].SegIndex;
     }
 
