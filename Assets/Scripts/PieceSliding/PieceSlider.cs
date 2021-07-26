@@ -19,6 +19,7 @@ public class PieceSlider : Puzzle
     private SlidingPiece[,] activePieces;
     private Vector2Int emptyTile = Vector2Int.zero;
     private SlidingPiece hiddenPiece;
+    [SerializeField] private SpriteRenderer board;
 
 #pragma warning restore 0649
 
@@ -28,6 +29,8 @@ public class PieceSlider : Puzzle
         base.StartPuzzle();
         Utils.SetCameraInMiddleOfGrid(piecePrefab.GetComponent<Renderer>(), Camera.main, gridSize, gridBorder);
         SetupGrid();
+        board.transform.position = new Vector3(((float)gridSize.x / 2) - 0.5f, ((float)gridSize.y / 2) - 0.5f, 0);
+        board.size = new Vector2(gridSize.x + 0.5f, gridSize.y + 0.5f);
     }
 
     private void Update()

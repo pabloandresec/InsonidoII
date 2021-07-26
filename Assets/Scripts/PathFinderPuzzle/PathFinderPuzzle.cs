@@ -25,6 +25,8 @@ public class PathFinderPuzzle : Puzzle
 
     [Header("Camera")]
     [SerializeField] private float gridBorder;
+    [SerializeField] private SpriteRenderer board;
+    [SerializeField] private float boardBorderSize;
 
     [Header("Path")]
     [SerializeField] private Vector2[] path;
@@ -40,6 +42,8 @@ public class PathFinderPuzzle : Puzzle
         base.StartPuzzle();
         GeneratePath();
         Utils.SetCameraInMiddleOfGrid(new Vector3(1,1,0), Camera.main, gridSize, gridBorder);
+        board.transform.position = new Vector3(((float)gridSize.x / 2) - 0.5f, ((float)gridSize.y / 2) - 0.5f, 0);
+        board.size = new Vector2(gridSize.x + boardBorderSize, gridSize.y + boardBorderSize);
     }
 
     private void Update()

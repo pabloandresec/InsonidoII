@@ -16,6 +16,7 @@ public class Memoria : Puzzle
     [SerializeField] private MemoryCard lastCard = null;
     [Header("Cam")]
     [SerializeField] private float border = 1f;
+    [SerializeField] private SpriteRenderer board;
 
     private bool blockClicks = false;
     private List<GameObject> spawnedCards = null;
@@ -33,6 +34,8 @@ public class Memoria : Puzzle
             gridSize,
             border
             );
+        board.transform.position = new Vector3(((float)gridSize.x / 2) - 0.5f, ((float)gridSize.y / 2) - 0.5f, 0);
+        board.size = new Vector2(gridSize.x + 0.5f, gridSize.y + 0.5f);
     }
 
     private void SetupCards()

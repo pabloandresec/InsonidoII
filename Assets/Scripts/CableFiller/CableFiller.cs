@@ -19,6 +19,7 @@ public class CableFiller : Puzzle
     [SerializeField] private Transform originPointsParent;
     [SerializeField] private Transform linesParent;
     [SerializeField] private float gridBorder;
+    [SerializeField] private SpriteRenderer board;
 
     private int currentSegment = -1;
     private Vector2Int lineStart = Vector2Int.zero;
@@ -32,6 +33,8 @@ public class CableFiller : Puzzle
         base.StartPuzzle();
         GenerateGrid();
         Utils.SetCameraInMiddleOfGrid(new Vector3(1, 1, 0), Camera.main, gridSize, gridBorder);
+        board.transform.position = new Vector3(((float)gridSize.x / 2) - 0.5f, ((float)gridSize.y / 2) - 0.5f, 0);
+        board.size = new Vector2(gridSize.x + 0.5f, gridSize.y + 0.5f);
     }
 
     private void Update()

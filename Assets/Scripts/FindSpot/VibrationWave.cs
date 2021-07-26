@@ -20,8 +20,9 @@ public class VibrationWave : MonoBehaviour
     [Range(1f, 500)]
     [SerializeField]
     private int waveVertexAmount = 300;
-    [SerializeField] private RectTransform waveStartPoint;
-    [SerializeField] private RectTransform waveEndPoint;
+
+    [SerializeField] Transform worldStartTransform;
+    [SerializeField] Transform worldEndTransform;
 
     private Vector3 worldStartPos;
     private Vector3 worldEndPos;
@@ -36,20 +37,20 @@ public class VibrationWave : MonoBehaviour
 
     private void SetupWave()
     {
-        worldStartPos = Camera.main.ScreenToWorldPoint(waveStartPoint.position);
-        worldEndPos = Camera.main.ScreenToWorldPoint(waveEndPoint.position);
-
-
+        worldStartPos = worldStartTransform.position;
+        worldEndPos = worldEndTransform.position;
 
         GameObject start = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         start.transform.localScale = new Vector3(.1f, .1f, .1f);
         worldStartPos.z = 1;
         start.transform.position = worldStartPos;
+        start.SetActive(false);
 
         GameObject end = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         end.transform.localScale = new Vector3(.1f, .1f, .1f);
         worldEndPos.z = 1;
         end.transform.position = worldEndPos;
+        end.SetActive(false);
 
         float totalDistance = Vector3.Distance(start.transform.position, end.transform.position);
         float stepSize = totalDistance / waveVertexAmount;

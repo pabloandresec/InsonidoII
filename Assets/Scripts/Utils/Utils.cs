@@ -52,6 +52,9 @@ public static class Utils
         int nR = (newRange.max - newRange.min);
         return (((value - oldRange.min) * nR) / oR) + newRange.min;
     }
+
+    
+
     /// <summary>
     /// Converte un rango de valores a otro rango\n
     /// Ejemplo: Un valor (5) de un rango entre 0 y 10 sera convertido a (50) si el nuevo rango es 0 y 100
@@ -164,6 +167,19 @@ public static class Utils
         float aR = (float)Screen.width / (float)Screen.height;
         float verSize = (float)gridSize.y / 2f + gridBorder;
         float horSize = ((float)gridSize.x / 2f + gridBorder) / aR;
+        cam.orthographicSize = (verSize > horSize) ? verSize : horSize;
+    }
+
+    public static void SetCameraInMiddleOfBounds(Bounds bounds, Camera cam, float gridBorder)
+    {
+        //Debug.Log("Centering camera");
+        Vector3 camPos = bounds.center;
+        camPos.z = -10;
+        cam.transform.position = camPos;
+
+        float aR = (float)Screen.width / (float)Screen.height;
+        float verSize = (float)bounds.size.y / 2f + gridBorder;
+        float horSize = ((float)bounds.size.x / 2f + gridBorder) / aR;
         cam.orthographicSize = (verSize > horSize) ? verSize : horSize;
     }
 
