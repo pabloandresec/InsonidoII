@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
+using Cinemachine;
 using Random = UnityEngine.Random;
 
 public class FindSpotSpriteEd : Puzzle
@@ -18,9 +19,11 @@ public class FindSpotSpriteEd : Puzzle
     [SerializeField] private Transform slotsParent;
     [SerializeField] private float distanceSensitivity = 2f;
     [Header("Cam")]
+    [SerializeField] private CinemachineVirtualCamera cam;
     [SerializeField] private float borderSize = 1f;
     [SerializeField] private Transform[] additionalBoundPoints;
 
+    private CinemachineBasicMultiChannelPerlin camNoise;
     private Dictionary<string, string> pairs;
     private Transform draggingObject = null;
     private Transform tgtSlot = null;
@@ -77,7 +80,9 @@ public class FindSpotSpriteEd : Puzzle
             }
         }
 
-        Utils.SetCameraInMiddleOfBounds(bounds, Camera.main, borderSize);
+        Utils.SetVirtualCameraInMiddleOfBounds(bounds, cam, borderSize);
+        camNoise = cam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        camNoise.m_AmplitudeGain = 0;
         //Camera.main.transform.position -= new Vector3(0, borderSize / 2, 0);
     }
 
@@ -108,7 +113,9 @@ public class FindSpotSpriteEd : Puzzle
             if(tgtSlot != null)
             {
                 float dist = Vector2.Distance(draggingObject.position, tgtSlot.position);
-                wave.SetVibrationAmount(Mathf.InverseLerp(distanceSensitivity, 0, dist));
+                float vibrationAmount = Mathf.InverseLerp(distanceSensitivity, 0, dist);
+                wave.SetVibrationAmount(vibrationAmount);
+                camNoise.m_AmplitudeGain = vibrationAmount;
             }
         }
 
@@ -135,6 +142,7 @@ public class FindSpotSpriteEd : Puzzle
             }
             wave.SetVibrationAmount(0);
             wave.SetVibration(false);
+            camNoise.m_AmplitudeGain = 0;
             draggingObject = null;
         }
     }

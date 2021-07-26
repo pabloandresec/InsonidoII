@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: f031702ae3280b04f971e790089e8cc9
   - enabled: 1
-    path: Assets/Scenes/FindPlace.unity
-    guid: eb964f1725c8d2942aacb203fb9f6b5b
+    path: Assets/Scenes/FindPlaceSpriteEd.unity
+    guid: 7c2902b0cf038e04ba3dcf116e23bddd
   - enabled: 1
     path: Assets/Scenes/SlidingPuzzle.unity
     guid: f85103577a04e8a48ba811114e7642b5

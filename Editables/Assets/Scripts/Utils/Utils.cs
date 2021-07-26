@@ -3,6 +3,7 @@ using System.Collections;
 using System;
 using Random = UnityEngine.Random;
 using System.Collections.Generic;
+using Cinemachine;
 
 public static class Utils
 {
@@ -170,7 +171,7 @@ public static class Utils
         cam.orthographicSize = (verSize > horSize) ? verSize : horSize;
     }
 
-    public static void SetCameraInMiddleOfBounds(Bounds bounds, Camera cam, float gridBorder)
+    public static void SetVirtualCameraInMiddleOfBounds(Bounds bounds, CinemachineVirtualCamera cam, float gridBorder)
     {
         //Debug.Log("Centering camera");
         Vector3 camPos = bounds.center;
@@ -180,7 +181,7 @@ public static class Utils
         float aR = (float)Screen.width / (float)Screen.height;
         float verSize = (float)bounds.size.y / 2f + gridBorder;
         float horSize = ((float)bounds.size.x / 2f + gridBorder) / aR;
-        cam.orthographicSize = (verSize > horSize) ? verSize : horSize;
+        cam.m_Lens.OrthographicSize = (verSize > horSize) ? verSize : horSize;
     }
 
     public static bool IsInBounds(Vector2Int pos, Vector2Int gridSize)
