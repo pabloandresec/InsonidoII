@@ -275,7 +275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DebugText: {fileID: 0}
-  gridSize: {x: 6, y: 6}
+  gridSize: {x: 30, y: 30}
   pieces:
   - {fileID: 8094206579339964923, guid: 6e3645c8be998e340982582fff1b07ff, type: 3}
   - {fileID: 8533130944313430255, guid: f0ccd3efb8e050b4f8faca6080800ce1, type: 3}
@@ -283,8 +283,7 @@ MonoBehaviour:
   probePrefab: {fileID: 6871016046475409416, guid: 4b64e567079806949a564f85f1ee89ca, type: 3}
   colTester: {fileID: 4419877809740759817, guid: 07d44b785a478a947b998fa678958d60, type: 3}
   gridPather: {fileID: 1211816983}
-  startPos: {x: -1, y: 5}
-  endPos: {x: 6, y: 0}
+  character: {fileID: 0}
   discardParent: {fileID: 740694316}
   piecesParent: {fileID: 472706360}
   probesParent: {fileID: 1102180103}

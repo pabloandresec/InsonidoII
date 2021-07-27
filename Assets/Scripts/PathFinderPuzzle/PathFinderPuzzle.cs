@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
@@ -16,8 +17,9 @@ public class PathFinderPuzzle : Puzzle
     [SerializeField] private GameObject probePrefab;
     [SerializeField] private GameObject colTester;
     [SerializeField] private CGrid gridPather;
-    [SerializeField] private Vector2Int startPos;
-    [SerializeField] private Vector2Int endPos;//
+    [SerializeField] private Transform character;
+    private Vector2Int startPos;
+    private Vector2Int endPos;//
     [SerializeField] private Transform discardParent;
     [SerializeField] private Transform piecesParent;
     [SerializeField] private Transform probesParent;
@@ -29,9 +31,13 @@ public class PathFinderPuzzle : Puzzle
     [SerializeField] private float boardBorderSize;
 
     [Header("Path")]
-    [SerializeField] private Vector2[] path;
+    [SerializeField] private List<Vector2> path;
 
-    private bool pathFound = false;
+    private Vector2[] firstPath;
+    private Vector2[] secondPath;
+    private bool firstPathFound = false;
+    private bool secondPathFound = false;
+    Vector2Int middleSpot;
     private Vector2 startNode, endNode;
     //Props
     public Vector2Int GridSize { get => gridSize; }
@@ -41,6 +47,7 @@ public class PathFinderPuzzle : Puzzle
     {
         base.StartPuzzle();
         GeneratePath();
+
         Utils.SetCameraInMiddleOfGrid(new Vector3(1,1,0), Camera.main, gridSize, gridBorder);
         board.transform.position = new Vector3(((float)gridSize.x / 2) - 0.5f, ((float)gridSize.y / 2) - 0.5f, 0);
         board.size = new Vector2(gridSize.x + boardBorderSize, gridSize.y + boardBorderSize);
@@ -71,17 +78,17 @@ public class PathFinderPuzzle : Puzzle
         }
 
         gridPather.Scan();
-        pathFound = false;
+        firstPathFound = false;
         Vector2[] testPath = Pathfinding.RequestPath(startPos, endPos, "MAIN", () =>
         {
-            pathFound = true;
+            firstPathFound = true;
         });
         StartCoroutine(CheckPath(testPath));
     }
 
     private IEnumerator CheckPath(Vector2[] testPath)
     {
-        while(!pathFound)
+        while(!firstPathFound)
         {
             yield return null;
         }
@@ -131,23 +138,41 @@ public class PathFinderPuzzle : Puzzle
         gridPather.Init((Vector2)gridSize);
         gridPather.Scan(null);
 
+        startPos = new Vector2Int(-1, gridSize.y - 1);
+        GameObject s = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        s.transform.position = new Vector3(startPos.x, startPos.y, 0);
+        s.transform.localScale = new Vector3(1, 0.5f, 1);
+        endPos = new Vector2Int(gridSize.x , 0);
+        GameObject e = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        e.transform.position = new Vector3(endPos.x, endPos.y, 0);
+        e.transform.localScale = new Vector3(1, 0.5f, 1);
 
+        middleSpot = GetRandomGridPos(new Vector2Int[] { new Vector2Int(0, gridSize.y - 1), new Vector2Int(gridSize.x - 1, 0) });
 
-        path = Pathfinding.RequestPath(startPos, endPos, "MAIN", () =>
+        firstPath = Pathfinding.RequestPath(startPos, middleSpot, "MAIN", () =>
         {
-            pathFound = true;
+            firstPathFound = true;
+        });
+        secondPath = Pathfinding.RequestPath(middleSpot, endPos, "MAIN", () =>
+        {
+            secondPathFound = true;
         });
         StartCoroutine(EndGeneration());
     }
 
     private IEnumerator EndGeneration()
     {
-        while(!pathFound)
+        while(!firstPathFound && !secondPathFound)
         {
             yield return null;
         }
+        path = new List<Vector2>();
+        path = firstPath.ToList();
+        path.AddRange(secondPath);
+
+
         //Debug.LogError("Starting "+ path.Length +" probes");
-        for (int i = 0; i < path.Length; i++)
+        for (int i = 0; i < path.Count; i++)
         {
             //Debug.Log("Spawning probe " + i);
             GameObject prob = Instantiate(probePrefab, path[i], Quaternion.identity);
@@ -155,7 +180,7 @@ public class PathFinderPuzzle : Puzzle
             prob.transform.SetParent(probesParent);
         }
         startNode = path[0];
-        endNode = path[path.Length - 1];
+        endNode = path[path.Count - 1];
         //discardParent.gameObject.SetActive(false);
         Destroy(discardParent.gameObject);
         SpawnPieces();
@@ -166,6 +191,30 @@ public class PathFinderPuzzle : Puzzle
             piecesParent.GetChild(i).gameObject.SetActive(true);
             piecesParent.GetChild(i).GetComponent<PathPiece>().ToggleColliderForRotation();
         }
+    }
+
+    private Vector2Int GetRandomGridPos(Vector2Int[] excludingGridCoords)
+    {
+        Vector2Int val = Vector2Int.zero;
+        bool done = false;
+        while (!done)
+        {
+            val = new Vector2Int(Random.Range(0, gridSize.x), Random.Range(0, gridSize.y));
+            bool isConflicted = false;
+            foreach (Vector2Int v in excludingGridCoords)
+            {
+                if (val == v)
+                {
+                    isConflicted = true;
+                }
+            }
+            if (!isConflicted)
+            {
+                done = true;
+                break;
+            }
+        }
+        return val;
     }
 
     private void SpawnPieces()
@@ -234,9 +283,9 @@ public class PathFinderPuzzle : Puzzle
 
     private void OnDrawGizmos()
     {
-        if(path.Length > 0)
+        if(path.Count > 0)
         {
-            for (int i = 1; i < path.Length; i++)
+            for (int i = 1; i < path.Count; i++)
             {
                 Gizmos.DrawLine(path[i - 1], path[i]);
             }
