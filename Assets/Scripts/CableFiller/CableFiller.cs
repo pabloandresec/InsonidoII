@@ -13,14 +13,22 @@ public class CableFiller : Puzzle
     [SerializeField] private Vector2Int gridSize;
     [SerializeField] private SnappingPoint[,] grid;
     [SerializeField] private GameObject snappingPointPrefab;
+    [Header("--------------SEGMENTOS--------------")]
     [SerializeField] private CableSegment[] segments;
+    [Header("-------------------------------------")]
     [SerializeField] private GameObject cablePointPrefab;
     [SerializeField] private GameObject linePrefab;
     [SerializeField] private Transform originPointsParent;
     [SerializeField] private Transform linesParent;
     [SerializeField] private float gridBorder;
     [SerializeField] private SpriteRenderer board;
+    [Header("Barra")]
+    [SerializeField] private Transform bar;
+    [SerializeField] private Color barEmpty;
+    [SerializeField] private Color barFull;
 
+    private SpriteRenderer barRend;
+    private float maxBarScale = 5f;
     private int currentSegment = -1;
     private Vector2Int lineStart = Vector2Int.zero;
     private bool drawing = false;
@@ -35,6 +43,10 @@ public class CableFiller : Puzzle
         Utils.SetCameraInMiddleOfGrid(new Vector3(1, 1, 0), Camera.main, gridSize, gridBorder);
         board.transform.position = new Vector3(((float)gridSize.x / 2) - 0.5f, ((float)gridSize.y / 2) - 0.5f, 0);
         board.size = new Vector2(gridSize.x + 0.5f, gridSize.y + 0.5f);
+
+        maxBarScale = bar.localScale.x;
+        barRend = bar.GetComponent<SpriteRenderer>();
+        LerpBar(0f);
     }
 
     private void Update()
@@ -49,7 +61,7 @@ public class CableFiller : Puzzle
 
             if (Physics2D.OverlapCircle(pointerPos, 0.25f))
             {
-                if (segments[currentSegment].LinePoints.Contains(new Vector3(pointerPos.x, pointerPos.y, 0)))
+                if (segments[currentSegment].LinePoints.Contains(new Vector3(pointerPos.x, pointerPos.y, 0))) // si tocaste el mismo cable que estas haciendo
                 {
                     ReformatSegment(currentSegment, pointerPos);
                 }
@@ -59,7 +71,7 @@ public class CableFiller : Puzzle
                     CancelDrawing();
                     return;
                 }
-                if (IsOverlappingWithDifferentColorLine(pointerPos, currentSegment)) // si se solapa la linea con otra
+                if (IsOverlappingWithDifferentColorLine(pointerPos, currentSegment)) // si se solapa la linea con otra de diferente color
                 {
                     //Debug.Log("Overlapping with different color");
                     if (grid[pointerPos.x, pointerPos.y].SegIndex >= 0)
@@ -69,7 +81,7 @@ public class CableFiller : Puzzle
                     }
                 }
                 int overlappingIndex = -1;
-                if (IsOverlappingWithAnyOrigin(pointerPos, out overlappingIndex))
+                if (IsOverlappingWithAnyOrigin(pointerPos, out overlappingIndex)) //Si toca cualquiera de los origenes
                 {
                     if (overlappingIndex == currentSegment)
                     {
@@ -115,10 +127,38 @@ public class CableFiller : Puzzle
 
     private void DrawLine(Vector2Int pointerPos)
     {
+        SetBarAmount();
         EnableNeighboursOnly(pointerPos);
         grid[pointerPos.x, pointerPos.y].SetSegmentIndex(currentSegment);
         segments[currentSegment].LinePoints.Add(new Vector3(pointerPos.x, pointerPos.y, 0));
         segments[currentSegment].UpdatePoints();
+    }
+
+    private void SetBarAmount()
+    {
+        int validPoints = 0;
+
+        for (int y = 0; y < gridSize.y; y++)
+        {
+            for (int x = 0; x < gridSize.x; x++)
+            {
+                if (grid[x, y].SegIndex != -1)
+                {
+                    validPoints++;
+                }
+            }
+        }
+
+
+        float lerpValue = Mathf.InverseLerp(0, gridSize.x * gridSize.y, validPoints);
+        //Debug.Log("valid p = " + validPoints + ", Lerp val" + lerpValue);
+        LerpBar(lerpValue);
+    }
+
+    private void LerpBar(float lerpValue)
+    {
+        bar.localScale = new Vector3(Mathf.Lerp(0, maxBarScale, lerpValue), bar.localScale.y, bar.localScale.z);
+        barRend.color = Color.Lerp(barEmpty, barFull, lerpValue);
     }
 
     private void CheckForCompletition()
@@ -227,7 +267,7 @@ public class CableFiller : Puzzle
             {
                 if (currentLineIndex != posIndex)
                 {
-                    Debug.Log("Overlapping with different color");
+                    //Debug.Log("Overlapping with different color");
                     return true;
                 }
             }
@@ -239,7 +279,7 @@ public class CableFiller : Puzzle
     {
         drawing = false;
         SetAllColliders(true);
-        Debug.Log(currentSegment + " index segment deselected");
+        //Debug.Log(currentSegment + " index segment deselected");
         currentSegment = -1;
     }
 

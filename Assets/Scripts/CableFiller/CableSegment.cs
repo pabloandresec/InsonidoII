@@ -13,8 +13,8 @@ public class CableSegment
     [SerializeField] private Vector2Int start;
     [SerializeField] private Vector2Int end;
     [SerializeField] private Color color;
-    [SerializeField] private HashSet<Vector3> linePoints;
-    [SerializeField] private LineRenderer line;
+    private HashSet<Vector3> linePoints;
+    private LineRenderer line;
 
     public Vector2Int Start { get => start; set => start = value; }
     public Vector2Int End { get => end; set => end = value; }
