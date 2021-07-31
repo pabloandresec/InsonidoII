@@ -67,9 +67,9 @@ public class DiagDisplayerBubble : DiagDisplayer
                 ShowCharacter(rt, () => {
                     switch (dialogPack.Dialog[currentLine].CharacterAnimation)
                     {
-                        case CharacterAnimation.NONE:
+                        case PotraitAnimation.NONE:
                             break;
-                        case CharacterAnimation.SHAKE:
+                        case PotraitAnimation.SHAKE:
                             LeanTween.moveLocalX(rt.gameObject, rt.localPosition.x + 10, .25f).setLoopPingPong(2);
                             break;
                     }

@@ -44,6 +44,8 @@ public class CableFiller : Puzzle
         board.transform.position = new Vector3(((float)gridSize.x / 2) - 0.5f, ((float)gridSize.y / 2) - 0.5f, 0);
         board.size = new Vector2(gridSize.x + 0.5f, gridSize.y + 0.5f);
 
+        bar.parent.GetComponent<SpriteRenderer>().size = new Vector2(gridSize.x + 0.5f, bar.parent.GetComponent<SpriteRenderer>().size.y);
+        bar.localScale = new Vector3(gridSize.x, bar.localScale.y);
         maxBarScale = bar.localScale.x;
         barRend = bar.GetComponent<SpriteRenderer>();
         LerpBar(0f);

@@ -275,7 +275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DebugText: {fileID: 0}
-  gridSize: {x: 30, y: 30}
+  gridSize: {x: 10, y: 10}
   pieces:
   - {fileID: 8094206579339964923, guid: 6e3645c8be998e340982582fff1b07ff, type: 3}
   - {fileID: 8533130944313430255, guid: f0ccd3efb8e050b4f8faca6080800ce1, type: 3}

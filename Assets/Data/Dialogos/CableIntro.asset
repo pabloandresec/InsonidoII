@@ -10,19 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5a237e9d2ed0fac46b3e20fb108d662a, type: 3}
-  m_Name: Cable
+  m_Name: CableIntro
   m_EditorClassIdentifier: 
   packName: CableTutorial
   dialog:
-  - characterName: Dio
-    character: {fileID: 21300000, guid: 050da396719a93648a1babb3d76a9d09, type: 3}
+  - characterName: Flor
+    sprites: {fileID: 11400000, guid: e46ed1c140ec3d9428b146f3f99a1107, type: 2}
+    spriteAnimWrapMode: 1
     characterPos: 0
-    characterAnimation: 0
+    portraitAnim: 0
     dialog: Jotaro!
     clip: {fileID: 8300000, guid: 0b1f7227e7be1304ba5362608690ed4d, type: 3}
   - characterName: Jotaro
-    character: {fileID: 21300000, guid: 2eaff74206836f249992d4f5ffc22607, type: 3}
+    sprites: {fileID: 11400000, guid: e46ed1c140ec3d9428b146f3f99a1107, type: 2}
+    spriteAnimWrapMode: 2
     characterPos: 0
-    characterAnimation: 1
+    portraitAnim: 1
     dialog: Dio!
     clip: {fileID: 8300000, guid: 30e9bc60962b2354fb3dd59f730268cf, type: 3}

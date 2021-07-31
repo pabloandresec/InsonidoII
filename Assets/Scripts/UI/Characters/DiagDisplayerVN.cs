@@ -13,6 +13,8 @@ public class DiagDisplayerVN : DiagDisplayer
     [SerializeField] protected TextMeshProUGUI textboxTMP;
     [SerializeField] protected Image character;
 
+    private Coroutine spriteAnim;
+    private int portraitTween;
     private AudioController audioController;
 
     private void Start()
@@ -67,17 +69,24 @@ public class DiagDisplayerVN : DiagDisplayer
             string characterPos = dialogPack.Dialog[currentLine].CharacterPos.ToString();
             Debug.Log(characterPos + " Position selected");
 
-            character.sprite = dialogPack.Dialog[currentLine].Character;
+            if(spriteAnim != null)
+            {
+                StopCoroutine(spriteAnim);
+                spriteAnim = null;
+            }
+            spriteAnim = StartCoroutine(PlayCharacterAnimation(dialogPack.Dialog[currentLine].Sprites, dialogPack, currentLine));
+            //character.sprite = dialogPack.Dialog[currentLine].Character;
 
             if (rt.transform.name == characterPos)
             {
                 ShowCharacter(rt, () => {
+                    LeanTween.cancel(rt.gameObject, portraitTween);
                     switch (dialogPack.Dialog[currentLine].CharacterAnimation)
                     {
-                        case CharacterAnimation.NONE:
+                        case PotraitAnimation.NONE:
                             break;
-                        case CharacterAnimation.SHAKE:
-                            LeanTween.moveLocalX(rt.gameObject, rt.localPosition.x + 10, .25f).setLoopPingPong(2);
+                        case PotraitAnimation.SHAKE:
+                            portraitTween = LeanTween.moveLocalX(rt.gameObject, rt.localPosition.x + 10, .25f).setLoopPingPong(2).id;
                             break;
                     }
                 });
@@ -90,6 +99,49 @@ public class DiagDisplayerVN : DiagDisplayer
         if(dialogPack.Dialog[currentLine].Clip != null)
         {
             audioController.PlaySFX(dialogPack.Dialog[currentLine].Clip);
+        }
+    }
+
+    private IEnumerator PlayCharacterAnimation(SpritePack sprPack, DialogPack dialogPack, int currentLine)
+    {
+        float tPassed = 0;
+        float frameTime = 1f /(float)sprPack.Fps;
+        SpritePackAnimationWrapMode spawm = dialogPack.Dialog[currentLine].SpriteAnimWrapMode;
+        Debug.Log("FrameTime: " + frameTime + ", wrapMode: " + spawm);
+        int currentFrame = 0;
+        bool reverse = false;
+
+        bool done = false;
+        while (!done)
+        {
+            if(tPassed >= frameTime)
+            {
+                Debug.Log("Currentframe = " + currentFrame);
+                currentFrame = !reverse ? currentFrame + 1 : currentFrame - 1; //next frame
+                tPassed = 0; //reset timer
+                if(currentFrame >= sprPack.Sprites.Length || currentFrame < 0) //if wrapping anim
+                {
+                    switch (spawm)
+                    {
+                        case SpritePackAnimationWrapMode.STOP:
+                            Debug.Log("Animation ended!");
+                            done = true;
+                            break;
+                        case SpritePackAnimationWrapMode.LOOP:
+                            Debug.Log("Animation reset!");
+                            currentFrame = 0;
+                            break;
+                        case SpritePackAnimationWrapMode.PINGPONG:
+                            Debug.Log("Animation PingPong");
+                            currentFrame = !reverse ? currentFrame - 2 : currentFrame + 2; //next frame
+                            reverse = !reverse;
+                            break;
+                    }
+                }
+            }
+            character.sprite = sprPack.Sprites[currentFrame];
+            tPassed += Time.deltaTime;
+            yield return null;
         }
     }
 
