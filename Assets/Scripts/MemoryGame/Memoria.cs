@@ -36,6 +36,7 @@ public class Memoria : Puzzle
             );
         board.transform.position = new Vector3(((float)gridSize.x / 2) - 0.5f, ((float)gridSize.y / 2) - 0.5f, 0);
         board.size = new Vector2(gridSize.x + 0.5f, gridSize.y + 0.5f);
+        ResizeSpriteToScreen();
     }
 
     private void SetupCards()

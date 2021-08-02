@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Memoria.unity
     guid: 83833fa6fbc677f428ea06bc25d34e7e
   - enabled: 1
-    path: Assets/Scenes/GyroScope.unity
+    path: Assets/Scenes/BROKEN/GyroScope.unity
     guid: 8ee88f0ed8a4fca4e916a2767a506fc5
   - enabled: 1
     path: Assets/Scenes/PathFinder.unity

@@ -51,6 +51,8 @@ public class PathFinderPuzzle : Puzzle
         Utils.SetCameraInMiddleOfGrid(new Vector3(1,1,0), Camera.main, gridSize, gridBorder);
         board.transform.position = new Vector3(((float)gridSize.x / 2) - 0.5f, ((float)gridSize.y / 2) - 0.5f, 0);
         board.size = new Vector2(gridSize.x + boardBorderSize, gridSize.y + boardBorderSize);
+
+        ResizeSpriteToScreen();
     }
 
     private void Update()
