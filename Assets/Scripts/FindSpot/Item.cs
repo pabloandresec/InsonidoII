@@ -68,7 +68,7 @@ public class Item : MonoBehaviour, IDragHandler, IBeginDragHandler , IEndDragHan
             StartCoroutine(CheckPlace(eventData));
         }
         wave.SetVibration(false);
-        GameObject.FindGameObjectWithTag("GameController").GetComponent<FindSpot>().CheckForCompletition();
+        //GameObject.FindGameObjectWithTag("GameController").GetComponent<FindSpot>().CheckForCompletition();
     }
 
     private IEnumerator CheckPlace(PointerEventData eventData)

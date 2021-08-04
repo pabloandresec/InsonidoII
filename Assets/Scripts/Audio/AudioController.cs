@@ -6,7 +6,6 @@ using UnityEngine.Audio;
 
 public class AudioController : MonoBehaviour
 {
-    public AudioClip[] sfxClips;
     public AudioClip[] musicClips;
     public AudioSource sfxSource;
     public AudioSource musicSource;
@@ -19,26 +18,6 @@ public class AudioController : MonoBehaviour
 
     private bool courutine = false;
 
-    public void PlaySFX(int index)
-    {
-        sfxSource.PlayOneShot(sfxClips[index]);
-    }
-    public void StartSFXPlayLooped(int index)
-    {
-        if (loopedIndex == index) return;
-        loopedIndex = index;
-        sfxSource.clip = sfxClips[index];
-        sfxSource.loop = true;
-        sfxSource.Play();
-    }
-    public void StopSFXPlayLooped(int index)
-    {
-        if (sfxSource.clip != sfxClips[index]) return;
-        loopedIndex = -1;
-        sfxSource.Stop();
-        sfxSource.clip = null;
-        sfxSource.loop = false;
-    }
     public void PlaySFX(AudioClip clip)
     {
         sfxSource.PlayOneShot(clip);
