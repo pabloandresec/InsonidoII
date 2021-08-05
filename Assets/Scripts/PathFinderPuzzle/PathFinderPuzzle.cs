@@ -16,6 +16,7 @@ public class PathFinderPuzzle : Puzzle
     [SerializeField] private GameObject shapePrefab;
     [SerializeField] private GameObject probePrefab;
     [SerializeField] private GameObject colTester;
+    [SerializeField] private GameObject startEndPiece;
     [SerializeField] private CGrid gridPather;
     [SerializeField] private Transform character;
     private Vector2Int startPos;
@@ -141,13 +142,11 @@ public class PathFinderPuzzle : Puzzle
         gridPather.Scan(null);
 
         startPos = new Vector2Int(-1, gridSize.y - 1);
-        GameObject s = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        GameObject s = Instantiate(startEndPiece, Vector3.zero, Quaternion.identity);
         s.transform.position = new Vector3(startPos.x, startPos.y, 0);
-        s.transform.localScale = new Vector3(1, 0.5f, 1);
         endPos = new Vector2Int(gridSize.x , 0);
-        GameObject e = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        GameObject e = Instantiate(startEndPiece, Vector3.zero, Quaternion.identity);
         e.transform.position = new Vector3(endPos.x, endPos.y, 0);
-        e.transform.localScale = new Vector3(1, 0.5f, 1);
 
         middleSpot = GetRandomGridPos(new Vector2Int[] { new Vector2Int(0, gridSize.y - 1), new Vector2Int(gridSize.x - 1, 0) });
 
