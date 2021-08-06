@@ -16,16 +16,17 @@ public class PathFinderPuzzle : Puzzle
     [SerializeField] private GameObject shapePrefab;
     [SerializeField] private GameObject probePrefab;
     [SerializeField] private GameObject colTester;
-    [SerializeField] private GameObject startEndPiece;
+
     [SerializeField] private CGrid gridPather;
     [SerializeField] private Transform character;
-    private Vector2Int startPos;
-    private Vector2Int endPos;//
+
     [SerializeField] private Transform discardParent;
     [SerializeField] private Transform piecesParent;
     [SerializeField] private Transform probesParent;
-    [SerializeField] private int[] rotations = new int[] { 0, 90, 180, 270 };
-
+    [Header("Custom pieces")]
+    [SerializeField] private GameObject startPiece;
+    [SerializeField] private GameObject checkPointPiece;
+    [SerializeField] private GameObject endPiece;
     [Header("Camera")]
     [SerializeField] private float gridBorder;
     [SerializeField] private SpriteRenderer board;
@@ -34,6 +35,9 @@ public class PathFinderPuzzle : Puzzle
     [Header("Path")]
     [SerializeField] private List<Vector2> path;
 
+    private Vector2Int startPos;
+    private Vector2Int endPos;//
+    private int[] rotations = new int[] { 0, 90, 180, 270 };
     private Vector2[] firstPath;
     private Vector2[] secondPath;
     private bool firstPathFound = false;
@@ -141,14 +145,23 @@ public class PathFinderPuzzle : Puzzle
         gridPather.Init((Vector2)gridSize);
         gridPather.Scan(null);
 
-        startPos = new Vector2Int(-1, gridSize.y - 1);
-        GameObject s = Instantiate(startEndPiece, Vector3.zero, Quaternion.identity);
+        Debug.Log("msj");
+        startPos = new Vector2Int(0, gridSize.y - 1);
+        GameObject s = Instantiate(startPiece, Vector3.zero, Quaternion.identity);
         s.transform.position = new Vector3(startPos.x, startPos.y, 0);
-        endPos = new Vector2Int(gridSize.x , 0);
-        GameObject e = Instantiate(startEndPiece, Vector3.zero, Quaternion.identity);
+        s.transform.name = "Start";
+        s.transform.SetParent(piecesParent);
+        endPos = new Vector2Int(gridSize.x - 1, 0);
+        GameObject e = Instantiate(endPiece, Vector3.zero, Quaternion.identity);
         e.transform.position = new Vector3(endPos.x, endPos.y, 0);
-
+        e.transform.name = "End";
+        e.transform.SetParent(piecesParent);
         middleSpot = GetRandomGridPos(new Vector2Int[] { new Vector2Int(0, gridSize.y - 1), new Vector2Int(gridSize.x - 1, 0) });
+        GameObject c = Instantiate(checkPointPiece, Vector3.zero, Quaternion.identity);
+        c.transform.position = new Vector3(middleSpot.x, middleSpot.y, 0);
+        c.transform.name = "Check";
+        c.transform.SetParent(piecesParent);
+
 
         firstPath = Pathfinding.RequestPath(startPos, middleSpot, "MAIN", () =>
         {
@@ -200,7 +213,7 @@ public class PathFinderPuzzle : Puzzle
         bool done = false;
         while (!done)
         {
-            val = new Vector2Int(Random.Range(0, gridSize.x), Random.Range(0, gridSize.y));
+            val = new Vector2Int(Random.Range(1, gridSize.x - 1), Random.Range(1, gridSize.y - 1));
             bool isConflicted = false;
             foreach (Vector2Int v in excludingGridCoords)
             {
@@ -224,20 +237,33 @@ public class PathFinderPuzzle : Puzzle
         {
             for (int x = 0; x < gridSize.x; x++)
             {
-                Vector3 cellPos = new Vector3(x, y, 0);
-                Collider2D[] col = Physics2D.OverlapCircleAll(cellPos, 0.5f);
+                if(CanPlacePieceHere(new Vector2(x, y)))
+                {
+                    Vector3 cellPos = new Vector3(x, y, 0);
+                    Collider2D[] col = Physics2D.OverlapCircleAll(cellPos, 0.5f);
 
-                if (col.Length > 4)
-                {
-                    SpawnCorrectPiece(cellPos);
-                    
-                }
-                else
-                {
-                    SpawnRandomPiece(cellPos);
+                    if (col.Length > 4)
+                    {
+                        SpawnCorrectPiece(cellPos);
+
+                    }
+                    else
+                    {
+                        SpawnRandomPiece(cellPos);
+                    }
                 }
             }
         }
+    }
+
+    private bool CanPlacePieceHere(Vector2 coord)
+    {
+        bool canPlace = true;
+        if(coord == startPos || coord == endPos || coord == middleSpot)
+        {
+            canPlace = false;
+        }
+        return canPlace;
     }
 
     private void SpawnRandomPiece(Vector3 cellPos)

@@ -7,6 +7,9 @@ public class PathPiece : MonoBehaviour
 #pragma warning disable 0649
 
     [SerializeField] private Transform[] testPoints;
+
+    [SerializeField] private bool canRotate = true;
+
     private bool rotating = false;
     private float[] rotations = new float[] {0,90,180,270 };
     private PolygonCollider2D pCol;
@@ -59,7 +62,7 @@ public class PathPiece : MonoBehaviour
 
     public void RotatePiece(Action OnRotationEnd)
     {
-        if(rotating)
+        if(rotating || !canRotate)
         {
             return;
         }

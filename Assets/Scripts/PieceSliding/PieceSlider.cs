@@ -18,8 +18,10 @@ public class PieceSlider : Puzzle
     [SerializeField] private float gridBorder = 1f;
     [SerializeField] private float lerpTime = 0.25f;
     [SerializeField] private MixMode mixMode = MixMode.MixA;
+    [SerializeField] private int mixAmount = 100;
     [SerializeField] private LayerMask piecesLayer;
     [SerializeField] private SpriteRenderer board;
+    [SerializeField] private Vector3 cameraOffset;
 
     private SlidingPiece[,] activePieces;
     private Vector2Int emptyTile = Vector2Int.zero;
@@ -36,7 +38,7 @@ public class PieceSlider : Puzzle
     {
         base.StartPuzzle();
         blockInput = true;
-        Utils.SetCameraInMiddleOfGrid(piecePrefab.GetComponent<Renderer>(), Camera.main, gridSize, gridBorder);
+        Utils.SetCameraInMiddleOfGrid(cameraOffset, Camera.main, gridSize, gridBorder);
         SetupGrid();
         ScaleBorder();
 
@@ -211,9 +213,17 @@ public class PieceSlider : Puzzle
 
         if(canEndGame)
         {
-            Debug.Log("GameCompleted");
+            EndGame();
             //SceneManager.LoadScene(0);
         }
+    }
+
+    private void EndGame()
+    {
+        activePieces[emptyTile.x, emptyTile.y].gameObject.SetActive(true);
+        transform.SetParent(board.transform);
+        LeanTween.scale(board.gameObject, transform.localScale * 1.1f, 0.2f).setLoopPingPong(2);
+        Debug.Log("GameCompleted");
     }
 
     public Vector2Int GetPieceAtPointerPos()
@@ -276,7 +286,6 @@ public class PieceSlider : Puzzle
         }
 
         PlaceEmptyCell();
-        int mixAmount = 200;
 
         StartCoroutine(MixingRoutine(mixAmount));
     }

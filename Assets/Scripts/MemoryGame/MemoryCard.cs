@@ -5,6 +5,14 @@ using UnityEngine;
 
 public class MemoryCard : MonoBehaviour
 {
+
+    [SerializeField] private SpriteRenderer cardBack;
+
+    [SerializeField] private Transform min;
+    [SerializeField] private Transform max;
+
+
+
     private bool showing = false;
     private string spriteName = "";
     private bool paired = false;
@@ -15,6 +23,10 @@ public class MemoryCard : MonoBehaviour
         set { paired = value; }
     }
 
+    public Bounds GetCardBounds()
+    {
+        return cardBack.bounds;
+    }
 
     public string SpriteName
     {
@@ -24,6 +36,9 @@ public class MemoryCard : MonoBehaviour
     {
         get { return showing; }
     }
+
+    public Transform Min { get => min; }
+    public Transform Max { get => max; }
 
     public void InitCard()
     {

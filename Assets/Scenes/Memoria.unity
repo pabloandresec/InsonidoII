@@ -495,7 +495,7 @@ MonoBehaviour:
   DebugText: {fileID: 0}
   spriteRenderer: {fileID: 2032539595}
   gridSize: {x: 5, y: 6}
-  cardPrefab: {fileID: 2170657445140195915, guid: 5006e6553ac82274e9984c511ddbe64a, type: 3}
+  cardPrefab: {fileID: 2170657445140195915, guid: c29e97de01111df44adb8d2b8d3d2308, type: 3}
   sprites:
   - {fileID: -2978653956524333172, guid: 1eb337ee08f1a4a47912defea0c1754a, type: 3}
   - {fileID: -299690340437171572, guid: 1eb337ee08f1a4a47912defea0c1754a, type: 3}
@@ -517,6 +517,7 @@ MonoBehaviour:
     m_Bits: 64
   lastCard: {fileID: 0}
   border: 1
+  boardScaleOffset: {x: 0.6, y: 0.6, z: 0}
   board: {fileID: 1582321458}
 --- !u!4 &1550032585
 Transform:
@@ -589,7 +590,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -2
-  m_Sprite: {fileID: 21300000, guid: 385d7b9eb6c3a164bae9388126029689, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 146bbb1fd4bfdc6468eff87b9e34680c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

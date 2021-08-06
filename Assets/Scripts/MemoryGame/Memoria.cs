@@ -16,10 +16,12 @@ public class Memoria : Puzzle
     [SerializeField] private MemoryCard lastCard = null;
     [Header("Cam")]
     [SerializeField] private float border = 1f;
+    [SerializeField] private Vector3 boardScaleOffset; 
     [SerializeField] private SpriteRenderer board;
 
     private bool blockClicks = false;
     private List<GameObject> spawnedCards = null;
+    Bounds boardBounds;
 
 #pragma warning restore 0649
 
@@ -34,8 +36,10 @@ public class Memoria : Puzzle
             gridSize,
             border
             );
-        board.transform.position = new Vector3(((float)gridSize.x / 2) - 0.5f, ((float)gridSize.y / 2) - 0.5f, 0);
-        board.size = new Vector2(gridSize.x + 0.5f, gridSize.y + 0.5f);
+        Utils.SetCameraInMiddleOfBounds(boardBounds, Camera.main, border);
+        board.transform.position = boardBounds.center;
+        //board.size = new Vector2(gridSize.x + 0.5f, gridSize.y + 0.5f);
+        board.size = boardBounds.size + boardScaleOffset;
         ResizeSpriteToScreen();
     }
 
@@ -43,11 +47,14 @@ public class Memoria : Puzzle
     {
         spawnedCards = new List<GameObject>();
 
+       
         for (int card = 0; card < 2; card++)
         {
+            
             for (int c = 0; c < sprites.Length; c++)
             {
                 GameObject g = Instantiate(cardPrefab, Vector3.zero, Quaternion.identity);
+                g.transform.SetParent(transform);
                 g.transform.Find("Front").GetComponent<SpriteRenderer>().sprite = sprites[c];
                 g.transform.name = sprites[c].name + "-" + card;
                 g.GetComponent<MemoryCard>().InitCard();
@@ -58,13 +65,23 @@ public class Memoria : Puzzle
         spawnedCards.Shuffle();
 
         int cardC = 0;
+        Vector3 currentPos = Vector3.zero;
+        boardBounds = new Bounds();
+        Bounds cardbounds = spawnedCards[0].GetComponent<MemoryCard>().GetCardBounds();
         for (int y = 0; y < gridSize.y; y++)
         {
+            currentPos = new Vector3(0, cardbounds.size.y * y, 0);
             for (int x = 0; x < gridSize.x; x++)
             {
                 if (cardC < spawnedCards.Count && spawnedCards[cardC] != null)
                 {
-                    spawnedCards[cardC].transform.position = new Vector3(x, y, 0);
+                    currentPos = new Vector3(cardbounds.size.x * x, currentPos.y, 0);
+                    spawnedCards[cardC].transform.position = currentPos;
+
+                    MemoryCard current = spawnedCards[cardC].GetComponent<MemoryCard>();
+                    boardBounds.Encapsulate(current.Min.position);
+                    boardBounds.Encapsulate(current.Max.position);
+                    //spawnedCards[cardC].transform.position = new Vector3(x, y, 0);
                     cardC++;
                 }
             }

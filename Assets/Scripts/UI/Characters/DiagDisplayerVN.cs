@@ -116,7 +116,7 @@ public class DiagDisplayerVN : DiagDisplayer
         {
             if(tPassed >= frameTime)
             {
-                Debug.Log("Currentframe = " + currentFrame);
+                //Debug.Log("Currentframe = " + currentFrame);
                 currentFrame = !reverse ? currentFrame + 1 : currentFrame - 1; //next frame
                 tPassed = 0; //reset timer
                 if(currentFrame >= sprPack.Sprites.Length || currentFrame < 0) //if wrapping anim
@@ -124,15 +124,15 @@ public class DiagDisplayerVN : DiagDisplayer
                     switch (spawm)
                     {
                         case SpritePackAnimationWrapMode.STOP:
-                            Debug.Log("Animation ended!");
+                            //Debug.Log("Animation ended!");
                             done = true;
                             break;
                         case SpritePackAnimationWrapMode.LOOP:
-                            Debug.Log("Animation reset!");
+                            //Debug.Log("Animation reset!");
                             currentFrame = 0;
                             break;
                         case SpritePackAnimationWrapMode.PINGPONG:
-                            Debug.Log("Animation PingPong");
+                            //Debug.Log("Animation PingPong");
                             currentFrame = !reverse ? currentFrame - 2 : currentFrame + 2; //next frame
                             reverse = !reverse;
                             break;

@@ -184,6 +184,19 @@ public static class Utils
         cam.m_Lens.OrthographicSize = (verSize > horSize) ? verSize : horSize;
     }
 
+    public static void SetCameraInMiddleOfBounds(Bounds bounds, Camera cam, float gridBorder)
+    {
+        //Debug.Log("Centering camera");
+        Vector3 camPos = bounds.center;
+        camPos.z = -10;
+        cam.transform.position = camPos;
+
+        float aR = (float)Screen.width / (float)Screen.height;
+        float verSize = (float)bounds.size.y / 2f + gridBorder;
+        float horSize = ((float)bounds.size.x / 2f + gridBorder) / aR;
+        cam.orthographicSize = (verSize > horSize) ? verSize : horSize;
+    }
+
     public static bool IsInBounds(Vector2Int pos, Vector2Int gridSize)
     {
         return pos.x >= 0 && pos.x < gridSize.x && pos.y >= 0 && pos.y < gridSize.y;
