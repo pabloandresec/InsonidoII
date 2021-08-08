@@ -6,24 +6,24 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Menu.unity
+    path: Assets/Scenes/Main/Menu.unity
     guid: f031702ae3280b04f971e790089e8cc9
   - enabled: 1
-    path: Assets/Scenes/FindPlaceSpriteEd.unity
-    guid: 7c2902b0cf038e04ba3dcf116e23bddd
+    path: Assets/Scenes/Cutscene/Cutscene1.unity
+    guid: 5fd7cb8158832954dbc624a3ae89f8a8
   - enabled: 1
-    path: Assets/Scenes/SlidingPuzzle.unity
+    path: Assets/Scenes/Main/SlidingPuzzle.unity
     guid: f85103577a04e8a48ba811114e7642b5
   - enabled: 1
-    path: Assets/Scenes/Memoria.unity
+    path: Assets/Scenes/Main/Memoria.unity
     guid: 83833fa6fbc677f428ea06bc25d34e7e
   - enabled: 1
-    path: Assets/Scenes/BROKEN/GyroScope.unity
-    guid: 8ee88f0ed8a4fca4e916a2767a506fc5
-  - enabled: 1
-    path: Assets/Scenes/PathFinder.unity
+    path: Assets/Scenes/Main/PathFinder.unity
     guid: edc8480a92f34564e9e8554bd1f61f70
   - enabled: 1
-    path: Assets/Scenes/CableFiller.unity
+    path: Assets/Scenes/Main/CableFiller.unity
     guid: c6785e2c3a303e249888c3e99eaf61ba
+  - enabled: 1
+    path: Assets/Scenes/Main/FindPlaceSpriteEd.unity
+    guid: 7c2902b0cf038e04ba3dcf116e23bddd
   m_configObjects: {}

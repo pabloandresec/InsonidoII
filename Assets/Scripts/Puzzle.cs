@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 using TMPro;
 
 public abstract class Puzzle : MonoBehaviour
@@ -49,18 +50,39 @@ public abstract class Puzzle : MonoBehaviour
         spriteRenderer.transform.localScale = new Vector3(size, size, 1);
         Debug.Log("Background Transform Updated");
     }
-    public void ResizeSpriteToScreen()
+
+    public void ResizeSpriteToScreen(Camera cam)
     {
+        Debug.Log("Resizing Sprite!");
         if (spriteRenderer == null) return;
         //Set vars
-        Vector3 camPos = Camera.main.transform.position;
+        Vector3 camPos = cam.transform.position;
         spriteRenderer.transform.localScale = new Vector3(1, 1, 1);
 
         //Get Sizes
         float width = spriteRenderer.sprite.bounds.size.x;
         float height = spriteRenderer.sprite.bounds.size.y;
 
-        float worldScreenHeight = Camera.main.orthographicSize * 2.0f;
+        float worldScreenHeight = cam.orthographicSize * 2.0f;
+        float worldScreenWidth = worldScreenHeight / Screen.height * Screen.width;
+
+        //Set values
+        spriteRenderer.transform.localScale = new Vector3(worldScreenWidth / width, worldScreenHeight / height, 1);
+        spriteRenderer.transform.position = new Vector3(camPos.x, camPos.y, 0);
+    }
+    public void ResizeSpriteToScreen(CinemachineVirtualCamera cam)
+    {
+        Debug.Log("Resizing Sprite!");
+        if (spriteRenderer == null) return;
+        //Set vars
+        Vector3 camPos = cam.transform.position;
+        spriteRenderer.transform.localScale = new Vector3(1, 1, 1);
+
+        //Get Sizes
+        float width = spriteRenderer.sprite.bounds.size.x;
+        float height = spriteRenderer.sprite.bounds.size.y;
+
+        float worldScreenHeight = cam.m_Lens.OrthographicSize * 2.0f;
         float worldScreenWidth = worldScreenHeight / Screen.height * Screen.width;
 
         //Set values

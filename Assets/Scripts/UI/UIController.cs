@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class UIController : MonoBehaviour
+public class UIController : MenuController
 {
-    public void LoadScene(int x)
-    {
-        SceneManager.LoadScene(x);
-    }
     public void LoadSceneAsync(int x)
     {
         SceneManager.LoadSceneAsync(x);
+    }
+    public void LoadSceneAsync(string name)
+    {
+        SceneManager.LoadSceneAsync(name);
     }
 }

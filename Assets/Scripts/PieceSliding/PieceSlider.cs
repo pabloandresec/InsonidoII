@@ -42,7 +42,7 @@ public class PieceSlider : Puzzle
         SetupGrid();
         ScaleBorder();
 
-        ResizeSpriteToScreen();
+        ResizeSpriteToScreen(Camera.main);
     }
 
     private void ScaleBorder()

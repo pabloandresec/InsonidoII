@@ -40,7 +40,7 @@ public class Memoria : Puzzle
         board.transform.position = boardBounds.center;
         //board.size = new Vector2(gridSize.x + 0.5f, gridSize.y + 0.5f);
         board.size = boardBounds.size + boardScaleOffset;
-        ResizeSpriteToScreen();
+        ResizeSpriteToScreen(Camera.main);
     }
 
     private void SetupCards()
@@ -168,8 +168,8 @@ public class Memoria : Puzzle
 
         if(completedGame)
         {
-            Debug.Log("Resetting game!");
-            SceneManager.LoadScene(0);
+            Debug.Log("GAME COMPLETED!");
+            //SceneManager.LoadScene(0);
         }
     }
 

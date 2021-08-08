@@ -57,7 +57,7 @@ public class PathFinderPuzzle : Puzzle
         board.transform.position = new Vector3(((float)gridSize.x / 2) - 0.5f, ((float)gridSize.y / 2) - 0.5f, 0);
         board.size = new Vector2(gridSize.x + boardBorderSize, gridSize.y + boardBorderSize);
 
-        ResizeSpriteToScreen();
+        ResizeSpriteToScreen(Camera.main);
     }
 
     private void Update()

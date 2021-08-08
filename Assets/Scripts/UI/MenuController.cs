@@ -163,7 +163,7 @@ public class MenuController : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene("Ending_" + sceneName);
+            SceneManager.LoadScene(sceneName);
         }
     }
 
