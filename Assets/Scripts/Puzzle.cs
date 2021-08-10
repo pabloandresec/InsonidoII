@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using TMPro;
+using System;
 
 public abstract class Puzzle : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public abstract class Puzzle : MonoBehaviour
 
     private static bool debug;
     private static TextMeshProUGUI uguiRef;
+    protected bool paused = false;
 
 #pragma warning restore 0649
 
@@ -21,6 +23,21 @@ public abstract class Puzzle : MonoBehaviour
     {
         uguiRef = DebugText;
         StartPuzzle();
+    }
+
+    public virtual void PauseGame()
+    {
+
+    }
+
+    public virtual void ResumeGame()
+    {
+
+    }
+
+    public virtual void RestartGame()
+    {
+
     }
 
     public virtual void RefreshPuzzle()
@@ -50,6 +67,8 @@ public abstract class Puzzle : MonoBehaviour
         spriteRenderer.transform.localScale = new Vector3(size, size, 1);
         Debug.Log("Background Transform Updated");
     }
+
+    
 
     public void ResizeSpriteToScreen(Camera cam)
     {

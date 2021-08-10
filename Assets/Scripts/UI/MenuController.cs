@@ -87,6 +87,16 @@ public class MenuController : MonoBehaviour
         mainMenus[i].SetActive(true);
     }
 
+    public void SwapMenu(int v)
+    {
+        for (int i = 0; i < mainMenus.Length; i++)
+        {
+            mainMenus[i].SetActive(false);
+        }
+
+        mainMenus[v].SetActive(true);
+    }
+
     /// <summary>
     /// Cambia el alpha de algun grupo
     /// </summary>

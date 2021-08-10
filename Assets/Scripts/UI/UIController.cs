@@ -13,4 +13,31 @@ public class UIController : MenuController
     {
         SceneManager.LoadSceneAsync(name);
     }
+
+    public void RequestPause()
+    {
+        Puzzle currentgame = GameObject.FindGameObjectWithTag("GameController").GetComponent<Puzzle>();
+        if(currentgame != null)
+        {
+            currentgame.PauseGame();
+        }
+    }
+
+    public void RequestResume()
+    {
+        Puzzle currentgame = GameObject.FindGameObjectWithTag("GameController").GetComponent<Puzzle>();
+        if (currentgame != null)
+        {
+            currentgame.ResumeGame();
+        }
+    }
+
+    public void RequestRestart()
+    {
+        Puzzle currentgame = GameObject.FindGameObjectWithTag("GameController").GetComponent<Puzzle>();
+        if (currentgame != null)
+        {
+            currentgame.RestartGame();
+        }
+    }
 }

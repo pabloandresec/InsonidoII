@@ -563,6 +563,76 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1827179495
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1827179497}
+  - component: {fileID: 1827179496}
+  m_Layer: 0
+  m_Name: GAME (2)
+  m_TagString: GameController
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1827179496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827179495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0b72e47eabc1f245bd25b23b5623f12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DebugText: {fileID: 0}
+  spriteRenderer: {fileID: 2032539595}
+  gridSize: {x: 6, y: 5}
+  cardPrefab: {fileID: 2170657445140195915, guid: c29e97de01111df44adb8d2b8d3d2308, type: 3}
+  sprites:
+  - {fileID: 21300000, guid: f6c0c2affb3d4c24285a8b6d9afb4b7b, type: 3}
+  - {fileID: 21300000, guid: d6402710d4e5fe345aca300439854100, type: 3}
+  - {fileID: 21300000, guid: 71494f1031670be4c815dc2fb970a87a, type: 3}
+  - {fileID: 21300000, guid: 09c4e55f35fc57049866d3bec35a09ca, type: 3}
+  - {fileID: 21300000, guid: b43714edc4e5d1947bbfb92cdcd2e948, type: 3}
+  - {fileID: 21300000, guid: b3dcd9cfdb40e6f44be22b851d9947dc, type: 3}
+  - {fileID: 21300000, guid: 088795ea3fb859e47b1bca7a92a05153, type: 3}
+  - {fileID: 21300000, guid: 2c7d67c8ae5f40140b5456f846ccaa82, type: 3}
+  - {fileID: 21300000, guid: 814dc28d2a7fa2f40a5d2144bf4d9208, type: 3}
+  - {fileID: 21300000, guid: adeedbd9ea7333f498b5ba11bef73b53, type: 3}
+  - {fileID: 21300000, guid: e26b63c0ac39df74b976cd1e17ffcd98, type: 3}
+  - {fileID: 21300000, guid: 2ec4e6d2777b7f645aca558644f819d7, type: 3}
+  - {fileID: 21300000, guid: 849ac54357e1ed8499727c59debea38d, type: 3}
+  - {fileID: 21300000, guid: 469e4b9c0b3bee244ae05894f26c20fe, type: 3}
+  - {fileID: 21300000, guid: c4a576575b5d51d4e8e9c8f81d652bcd, type: 3}
+  cardsMask:
+    serializedVersion: 2
+    m_Bits: 64
+  lastCard: {fileID: 0}
+  border: 2
+  boardScaleOffset: {x: 0.66, y: 0.6, z: 0}
+  board: {fileID: 1582321458}
+--- !u!4 &1827179497
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827179495}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2032539594
 GameObject:
   m_ObjectHideFlags: 0
@@ -662,7 +732,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2135845233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -677,23 +747,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DebugText: {fileID: 0}
   spriteRenderer: {fileID: 2032539595}
-  gridSize: {x: 7, y: 4}
+  gridSize: {x: 5, y: 4}
   cardPrefab: {fileID: 2170657445140195915, guid: c29e97de01111df44adb8d2b8d3d2308, type: 3}
   sprites:
-  - {fileID: 21300000, guid: f6c0c2affb3d4c24285a8b6d9afb4b7b, type: 3}
-  - {fileID: 21300000, guid: d6402710d4e5fe345aca300439854100, type: 3}
-  - {fileID: 21300000, guid: 71494f1031670be4c815dc2fb970a87a, type: 3}
-  - {fileID: 21300000, guid: 09c4e55f35fc57049866d3bec35a09ca, type: 3}
-  - {fileID: 21300000, guid: b43714edc4e5d1947bbfb92cdcd2e948, type: 3}
-  - {fileID: 21300000, guid: b3dcd9cfdb40e6f44be22b851d9947dc, type: 3}
-  - {fileID: 21300000, guid: 088795ea3fb859e47b1bca7a92a05153, type: 3}
-  - {fileID: 21300000, guid: 2c7d67c8ae5f40140b5456f846ccaa82, type: 3}
-  - {fileID: 21300000, guid: 814dc28d2a7fa2f40a5d2144bf4d9208, type: 3}
-  - {fileID: 21300000, guid: adeedbd9ea7333f498b5ba11bef73b53, type: 3}
-  - {fileID: 21300000, guid: e26b63c0ac39df74b976cd1e17ffcd98, type: 3}
-  - {fileID: 21300000, guid: 2ec4e6d2777b7f645aca558644f819d7, type: 3}
-  - {fileID: 21300000, guid: 849ac54357e1ed8499727c59debea38d, type: 3}
-  - {fileID: 21300000, guid: 469e4b9c0b3bee244ae05894f26c20fe, type: 3}
+  - {fileID: 21300000, guid: 65b0b46ac5d724c4bb7550d479f0bba1, type: 3}
+  - {fileID: 21300000, guid: 830caa0f84adf5846807767714b5c7d0, type: 3}
+  - {fileID: 21300000, guid: 039dbd49da2b3cd4cacbccb5f8ead6dc, type: 3}
+  - {fileID: 21300000, guid: d0f71780d52f94247ae76b18b49b3bfc, type: 3}
+  - {fileID: 21300000, guid: 890b68aa361c10a418290bcf4a0d0f88, type: 3}
+  - {fileID: 21300000, guid: 324d7bbadad60d141b610eb367e6f92b, type: 3}
+  - {fileID: 21300000, guid: e8e814221e234134a8f4ba10a1388a4d, type: 3}
+  - {fileID: 21300000, guid: c3ccd597f24be5548abfb071b10de19e, type: 3}
+  - {fileID: 21300000, guid: 5123c4a29961e994dac683fe80e94861, type: 3}
+  - {fileID: 21300000, guid: c9af8e485e84fc44ca278ea529927d24, type: 3}
   cardsMask:
     serializedVersion: 2
     m_Bits: 64

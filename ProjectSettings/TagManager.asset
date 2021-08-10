@@ -6,6 +6,7 @@ TagManager:
   tags:
   - AudioController
   - Item
+  - UI
   layers:
   - Default
   - TransparentFX

@@ -62,6 +62,10 @@ public class PathFinderPuzzle : Puzzle
 
     private void Update()
     {
+        if(paused)
+        {
+            return;
+        }
         if(Input.GetMouseButtonDown(0))
         {
             Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -74,6 +78,27 @@ public class PathFinderPuzzle : Puzzle
                 });
             }
         }
+    }
+
+    public override void PauseGame()
+    {
+        Debug.Log("PAUSING GAME");
+        GameObject.FindGameObjectWithTag("UI").GetComponent<MenuController>().SwapMenu(1);
+        paused = true;
+    }
+
+    public override void ResumeGame()
+    {
+        Debug.Log("RESUMING GAME");
+        GameObject.FindGameObjectWithTag("UI").GetComponent<MenuController>().SwapMenu(0);
+        paused = false;
+    }
+
+    public override void RestartGame()
+    {
+        Debug.Log("RESETTING GAME");
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex);
     }
 
     private void CheckForPathCompletition()
