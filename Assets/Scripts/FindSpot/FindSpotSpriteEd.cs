@@ -12,7 +12,6 @@ public class FindSpotSpriteEd : Puzzle
     [SerializeField] private Vector2Int gridSize;
     [SerializeField] private GameObject slotPrefab;
     [SerializeField] private GameObject itemPrefab;
-    [SerializeField] private VibrationWave wave;
     [SerializeField] private List<Sprite> sprites;
     [SerializeField] private LayerMask slotMask;
     [SerializeField] private Transform itemsParent;
@@ -33,7 +32,12 @@ public class FindSpotSpriteEd : Puzzle
     public override void StartPuzzle()
     {
         base.StartPuzzle();
+        SetupA();
+        
+    }
 
+    private void SetupA()
+    {
         pairs = new Dictionary<string, string>();
         List<Sprite> mixedItems = sprites;
         mixedItems.Shuffle();
@@ -54,7 +58,7 @@ public class FindSpotSpriteEd : Puzzle
                 GameObject item = Instantiate(itemPrefab, new Vector3(x, y, 0) + offsetPos, Quaternion.identity);
                 bounds.Encapsulate(item.transform.position);
                 item.GetComponent<SpriteRenderer>().sprite = sprites[itemIndex];
-                item.transform.name = itemIndex + "_" +sprites[itemIndex].name;
+                item.transform.name = itemIndex + "_" + sprites[itemIndex].name;
                 item.transform.SetParent(itemsParent);
                 items.Add(item);
                 itemIndex++;
@@ -62,7 +66,7 @@ public class FindSpotSpriteEd : Puzzle
         }
 
         int ind = 0;
-        while(slots.Count != 0)
+        while (slots.Count != 0)
         {
             int randSlotIndex = Random.Range(0, slots.Count);
             pairs.Add(slots[randSlotIndex].transform.name, items[ind].transform.name);
@@ -72,7 +76,7 @@ public class FindSpotSpriteEd : Puzzle
 
         Debug.Log(pairs.Count + " slot assigned!");
 
-        if(additionalBoundPoints != null && additionalBoundPoints.Length > 0)
+        if (additionalBoundPoints != null && additionalBoundPoints.Length > 0)
         {
             for (int i = 0; i < additionalBoundPoints.Length; i++)
             {
@@ -99,8 +103,6 @@ public class FindSpotSpriteEd : Puzzle
             {
                 if(col.CompareTag("Item"))
                 {
-                    wave.SetVibrationAmount(0);
-                    wave.SetVibration(true);
                     tgtSlot = GetTGT(col.transform.name);
                     draggingObject = col.transform;
                     ogPos = draggingObject.position;
@@ -116,7 +118,6 @@ public class FindSpotSpriteEd : Puzzle
             {
                 float dist = Vector2.Distance(draggingObject.position, tgtSlot.position);
                 float vibrationAmount = Mathf.InverseLerp(distanceSensitivity, 0, dist);
-                wave.SetVibrationAmount(vibrationAmount);
                 camNoise.m_AmplitudeGain = vibrationAmount;
             }
         }
@@ -142,8 +143,6 @@ public class FindSpotSpriteEd : Puzzle
             {
                 draggingObject.transform.position = ogPos;
             }
-            wave.SetVibrationAmount(0);
-            wave.SetVibration(false);
             camNoise.m_AmplitudeGain = 0;
             draggingObject = null;
         }

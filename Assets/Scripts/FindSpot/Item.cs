@@ -9,7 +9,6 @@ public class Item : MonoBehaviour, IDragHandler, IBeginDragHandler , IEndDragHan
 {
 #pragma warning disable 0649
 
-    [SerializeField] private VibrationWave wave;
     [SerializeField] private Transform tgtParent;
     private Transform ogParent;
     bool dragged = false;
@@ -35,11 +34,9 @@ public class Item : MonoBehaviour, IDragHandler, IBeginDragHandler , IEndDragHan
         if(!draggable)
         {
             Puzzle.MobileDebug("Is not draggble");
-            wave.SetVibration(false);
             return;
         }
         Puzzle.MobileDebug("Started Dragging");
-        wave.SetVibration(true);
         dragged = true;
         transform.SetParent(tgtParent.parent.parent);
         transform.SetAsLastSibling();
@@ -55,7 +52,6 @@ public class Item : MonoBehaviour, IDragHandler, IBeginDragHandler , IEndDragHan
             Vector3 newPos = eventData.position;
             myRect.position = newPos;
             float dist = Vector2.Distance(myRect.position, tgtParent.position);
-            wave.SetVibrationAmount(Mathf.InverseLerp(200, 0, dist));
             //Debug.Log("Dist to target = " + dist);
         }
     }
@@ -67,7 +63,6 @@ public class Item : MonoBehaviour, IDragHandler, IBeginDragHandler , IEndDragHan
         {
             StartCoroutine(CheckPlace(eventData));
         }
-        wave.SetVibration(false);
         //GameObject.FindGameObjectWithTag("GameController").GetComponent<FindSpot>().CheckForCompletition();
     }
 

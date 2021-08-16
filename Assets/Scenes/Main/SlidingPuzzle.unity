@@ -392,7 +392,7 @@ MonoBehaviour:
   gridBorder: 1
   lerpTime: 0.15
   mixMode: 1
-  mixAmount: 2
+  mixAmount: 150
   piecesLayer:
     serializedVersion: 2
     m_Bits: 64
