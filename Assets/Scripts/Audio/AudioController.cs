@@ -6,22 +6,49 @@ using UnityEngine.Audio;
 
 public class AudioController : MonoBehaviour
 {
-    public AudioClip[] musicClips;
-    public AudioSource sfxSource;
-    public AudioSource musicSource;
+    [SerializeField] private AudioClip[] musicClips;
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioSource musicSource;
     [Header("General")]
-    public bool soundEnabled = true;
-    public AudioMixer sfxMixer;
-    public AudioMixer musicMixer;
+    [SerializeField]
+    [Tooltip("Si es menor a 0 no funciona")]
+    private int playMusicOnAwake = -1;
+    [SerializeField] private bool soundEnabled = true;
+    [SerializeField] private AudioMixer sfxMixer;
+    [SerializeField] private AudioMixer musicMixer;
 
-    public int loopedIndex = -1;
+    [SerializeField] private int loopedIndex = -1;
 
     private bool courutine = false;
 
+
+    private void Start()
+    {
+        if(playMusicOnAwake >= 0)
+        {
+            musicSource.clip = musicClips[playMusicOnAwake];
+            musicSource.Play();
+        }
+    }
+
     public void PlaySFX(AudioClip clip)
     {
+        if(clip == null)
+        {
+            return;
+        }
         sfxSource.PlayOneShot(clip);
     }
+    public void PlaySFX(AudioClip clip, float pitch)
+    {
+        if (clip == null)
+        {
+            return;
+        }
+        sfxSource.pitch = pitch;
+        sfxSource.PlayOneShot(clip);
+    }
+
     public void SwapMusic(int index)
     {
         musicSource.Stop();

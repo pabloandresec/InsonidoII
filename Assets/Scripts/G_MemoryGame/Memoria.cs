@@ -18,7 +18,13 @@ public class Memoria : Puzzle
     [SerializeField] private float border = 1f;
     [SerializeField] private Vector3 boardScaleOffset; 
     [SerializeField] private SpriteRenderer board;
+    [Header("Sound")]
+    [SerializeField] private AudioClip onFlip;
+    [SerializeField] private AudioClip onCorrectGuess;
+    [SerializeField] private AudioClip onWrongGuess;
+    [SerializeField] private AudioClip onGameCompleted;
 
+    private AudioController ac;
     private bool blockClicks = false;
     private List<GameObject> spawnedCards = null;
     Bounds boardBounds;
@@ -41,6 +47,8 @@ public class Memoria : Puzzle
         //board.size = new Vector2(gridSize.x + 0.5f, gridSize.y + 0.5f);
         board.size = boardBounds.size + boardScaleOffset;
         ResizeSpriteToScreen(Camera.main);
+
+        ac = GameObject.FindGameObjectWithTag("AudioController").GetComponent<AudioController>();
     }
 
     private void SetupCards()
@@ -90,6 +98,10 @@ public class Memoria : Puzzle
 
     private void Update()
     {
+        if(paused)
+        {
+            return;
+        }
         if(Input.GetMouseButtonDown(0))
         {
             if (blockClicks)
@@ -98,6 +110,7 @@ public class Memoria : Puzzle
                 return;
             }
             MemoryCard selectedCard = GetCardAtPointerPos();
+            ac.PlaySFX(onFlip);
             if (selectedCard != null && selectedCard != lastCard && !selectedCard.Showing)
             {
                 blockClicks = true;
@@ -132,6 +145,7 @@ public class Memoria : Puzzle
         {
             if (selectedCard.SpriteName == lastCard.SpriteName)
             {
+                ac.PlaySFX(onCorrectGuess);
                 Debug.Log("CORRECT!");
                 selectedCard.Paired = true;
                 lastCard.Paired = true;
@@ -144,6 +158,7 @@ public class Memoria : Puzzle
             else
             {
                 Debug.Log("WRONG!");
+                ac.PlaySFX(onWrongGuess);
                 WaitForSeconds(1f, () => {
                     selectedCard.HideCard(null);
                     lastCard.HideCard(() => {
@@ -168,6 +183,7 @@ public class Memoria : Puzzle
 
         if(completedGame)
         {
+            ac.PlaySFX(onGameCompleted);
             Debug.Log("GAME COMPLETED!");
             //SceneManager.LoadScene(0);
         }
@@ -184,5 +200,24 @@ public class Memoria : Puzzle
         onWaitComplete?.Invoke();
     }
 
-    
+    public override void PauseGame()
+    {
+        Debug.Log("PAUSING GAME");
+        paused = true;
+        GameObject.FindGameObjectWithTag("UI").GetComponent<MenuController>().SwapMenu(1);
+    }
+
+    public override void ResumeGame()
+    {
+        Debug.Log("RESUMING GAME");
+        GameObject.FindGameObjectWithTag("UI").GetComponent<MenuController>().SwapMenu(0);
+        paused = false;
+    }
+
+    public override void RestartGame()
+    {
+        Debug.Log("RESETTING GAME");
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex);
+    }
 }

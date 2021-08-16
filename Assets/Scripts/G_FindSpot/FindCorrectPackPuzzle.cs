@@ -22,7 +22,14 @@ public class FindCorrectPackPuzzle : Puzzle
     [SerializeField] private Transform itemsParent;
     [SerializeField] private CinemachineVirtualCamera cam;
     [SerializeField] private SpriteRenderer board;
+    [Header("Sounds")]
+    [SerializeField] private AudioClip onGrab;
+    [SerializeField] private AudioClip onRelease;
+    [SerializeField] private AudioClip onCorrectItemDrop;
+    [SerializeField] private AudioClip onWrongItemDrop;
+    [SerializeField] private AudioClip onGameCompleted;
 
+    private AudioController ac;
     private CinemachineBasicMultiChannelPerlin camNoise;
     private Dictionary<Transform, Transform> pairs;
     private Transform draggingObject = null;
@@ -33,12 +40,15 @@ public class FindCorrectPackPuzzle : Puzzle
     public override void StartPuzzle()
     {
         base.StartPuzzle();
+        
+
         SetupPacks();
         SetBounds();
         SetupCamera();
         ResizeSpriteToScreen(cam);
-
         SetBorders();
+
+        ac = GameObject.FindGameObjectWithTag("AudioController").GetComponent<AudioController>();
     }
 
     private void SetBorders()
@@ -129,6 +139,11 @@ public class FindCorrectPackPuzzle : Puzzle
 
     private void Update()
     {
+        if(paused)
+        {
+            return;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 pointerPos = GetMouse2DPos();
@@ -141,6 +156,7 @@ public class FindCorrectPackPuzzle : Puzzle
                     tgtSlot = GetTGT(col.transform);
                     draggingObject = col.transform;
                     ogPos = draggingObject.position;
+                    ac.PlaySFX(onGrab);
                 }
             }
         }
@@ -159,25 +175,29 @@ public class FindCorrectPackPuzzle : Puzzle
 
         if (Input.GetMouseButtonUp(0) && draggingObject != null)
         {
+            ac.PlaySFX(onRelease);
             Vector3 pointerPos = GetMouse2DPos();
             Collider2D col = Physics2D.OverlapCircle(pointerPos, 0.05f, slotMask);
             if (col != null)
             {
-                Debug.Log("Comparing " + col.transform.name + " with " + draggingObject.name);
+                //Debug.Log("Comparing " + col.transform.name + " with " + draggingObject.name);
                 if (pairs[draggingObject] == col.transform)
                 {
                     draggingObject.SetParent(col.transform);
                     draggingObject.localPosition = Vector3.zero;
                     draggingObject.gameObject.SetActive(false);
+                    ac.PlaySFX(onCorrectItemDrop);
                     CheckGameCompletition();
                 }
                 else
                 {
+                    ac.PlaySFX(onWrongItemDrop);
                     draggingObject.transform.position = ogPos;
                 }
             }
             else
             {
+                ac.PlaySFX(onWrongItemDrop);
                 draggingObject.transform.position = ogPos;
             }
             camNoise.m_AmplitudeGain = 0;
@@ -189,6 +209,7 @@ public class FindCorrectPackPuzzle : Puzzle
     {
         if(itemsParent.childCount == 0)
         {
+            ac.PlaySFX(onGameCompleted);
             Debug.Log("GAME COMPLETED!");
             SceneManager.LoadScene(0);
         }
@@ -212,6 +233,27 @@ public class FindCorrectPackPuzzle : Puzzle
         Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         pos.z = 0;
         return pos;
+    }
+
+    public override void PauseGame()
+    {
+        Debug.Log("PAUSING GAME");
+        GameObject.FindGameObjectWithTag("UI").GetComponent<MenuController>().SwapMenu(1);
+        paused = true;
+    }
+
+    public override void ResumeGame()
+    {
+        Debug.Log("RESUMING GAME");
+        GameObject.FindGameObjectWithTag("UI").GetComponent<MenuController>().SwapMenu(0);
+        paused = false;
+    }
+
+    public override void RestartGame()
+    {
+        Debug.Log("RESETTING GAME");
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex);
     }
 }
 

@@ -26,12 +26,21 @@ public class CableFiller : Puzzle
     [SerializeField] private Transform bar;
     [SerializeField] private Color barEmpty;
     [SerializeField] private Color barFull;
+    [Header("Sonidos")]
+    [SerializeField] private AudioClip onSnap;
+    [SerializeField] private AudioClip onGameCompleted;
+    [SerializeField] private AudioClip onCableSnap;
+    [SerializeField] private FloatRange pitchRange;
 
+    private AudioController ac;
     private SpriteRenderer barRend;
     private float maxBarScale = 5f;
     private int currentSegment = -1;
     private Vector2Int lineStart = Vector2Int.zero;
     private bool drawing = false;
+    //sound
+    private float currentPitch;
+    private int snapPointsAmount;
 
 #pragma warning restore 0649
 
@@ -47,12 +56,19 @@ public class CableFiller : Puzzle
         bar.parent.GetComponent<SpriteRenderer>().size = new Vector2(gridSize.x + 0.5f, bar.parent.GetComponent<SpriteRenderer>().size.y);
         bar.localScale = new Vector3(gridSize.x, bar.localScale.y);
         maxBarScale = bar.localScale.x;
+        snapPointsAmount = gridSize.x * gridSize.y;
         barRend = bar.GetComponent<SpriteRenderer>();
+        ac = GameObject.FindGameObjectWithTag("AudioController").GetComponent<AudioController>();
         LerpBar(0f);
     }
 
     private void Update()
     {
+        if(paused)
+        {
+            return;
+        }
+
         if(Input.GetMouseButtonDown(0))
         {
             StartDrawingInstructions();
@@ -66,11 +82,13 @@ public class CableFiller : Puzzle
                 if (segments[currentSegment].LinePoints.Contains(new Vector3(pointerPos.x, pointerPos.y, 0))) // si tocaste el mismo cable que estas haciendo
                 {
                     ReformatSegment(currentSegment, pointerPos);
+                    ac.PlaySFX(onCableSnap, 1);
                 }
 
                 if (IsOverlappingWithDifferentColorOrigin(pointerPos, currentSegment, grid[pointerPos.x, pointerPos.y].SegIndex)) // si se solapa la linea con un origen de distinto color
                 {
                     CancelDrawing();
+                    ac.PlaySFX(onCableSnap, 1);
                     return;
                 }
                 if (IsOverlappingWithDifferentColorLine(pointerPos, currentSegment)) // si se solapa la linea con otra de diferente color
@@ -80,25 +98,28 @@ public class CableFiller : Puzzle
                     {
                         Debug.Log("Crossed anothe line");
                         ReformatSegment(grid[pointerPos.x, pointerPos.y].SegIndex, pointerPos);
+                        ac.PlaySFX(onCableSnap, 1);
                     }
                 }
                 int overlappingIndex = -1;
+                currentPitch = Utils.ConvertRangedValueToAnotherRange(segments[currentSegment].Line.positionCount, new FloatRange(0, snapPointsAmount), pitchRange);
                 if (IsOverlappingWithAnyOrigin(pointerPos, out overlappingIndex)) //Si toca cualquiera de los origenes
                 {
                     if (overlappingIndex == currentSegment)
                     {
                         DrawLine(pointerPos);
+                        ac.PlaySFX(onSnap, currentPitch);
                         CancelDrawing();
                         return;
                     }
                 }
-
+                ac.PlaySFX(onSnap, currentPitch);
                 DrawLine(pointerPos);
-
             }
         }
         if (Input.GetMouseButtonUp(0))
         {
+            currentPitch = pitchRange.min;
             CancelDrawing();
             CheckForCompletition();
         }
@@ -191,6 +212,7 @@ public class CableFiller : Puzzle
         if(complete)
         {
             Debug.Log("Level Complete");
+            ac.PlaySFX(onGameCompleted);
             SceneManager.LoadScene(0);
         }
     }
@@ -473,5 +495,26 @@ public class CableFiller : Puzzle
                 cs.End = new Vector2Int(cs.End.x, gridSize.y - 1);
             }
         }
+    }
+
+    public override void PauseGame()
+    {
+        Debug.Log("PAUSING GAME");
+        GameObject.FindGameObjectWithTag("UI").GetComponent<MenuController>().SwapMenu(1);
+        paused = true;
+    }
+
+    public override void ResumeGame()
+    {
+        Debug.Log("RESUMING GAME");
+        GameObject.FindGameObjectWithTag("UI").GetComponent<MenuController>().SwapMenu(0);
+        paused = false;
+    }
+
+    public override void RestartGame()
+    {
+        Debug.Log("RESETTING GAME");
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex);
     }
 }

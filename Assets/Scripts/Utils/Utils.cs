@@ -220,3 +220,22 @@ public struct IntRange
         return new IntRange(0, 100);
     }
 }
+
+[Serializable]
+public struct FloatRange
+{
+    public float min;
+    public float max;
+
+    public FloatRange(float min, float max)
+    {
+        this.min = min;
+        this.max = max;
+    }
+
+    public FloatRange GetPercentRange()
+    {
+        return new FloatRange(0, 100);
+    }
+
+}

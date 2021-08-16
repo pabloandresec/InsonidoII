@@ -34,7 +34,11 @@ public class PathFinderPuzzle : Puzzle
 
     [Header("Path")]
     [SerializeField] private List<Vector2> path;
+    [Header("Sounds")]
+    [SerializeField] private AudioClip onRotatePiece;
+    [SerializeField] private AudioClip onGameCompleted;
 
+    private AudioController ac;
     private Vector2Int startPos;
     private Vector2Int endPos;//
     private int[] rotations = new int[] { 0, 90, 180, 270 };
@@ -58,6 +62,8 @@ public class PathFinderPuzzle : Puzzle
         board.size = new Vector2(gridSize.x + boardBorderSize, gridSize.y + boardBorderSize);
 
         ResizeSpriteToScreen(Camera.main);
+
+        ac = GameObject.FindGameObjectWithTag("AudioController").GetComponent<AudioController>();
     }
 
     private void Update()
@@ -73,6 +79,7 @@ public class PathFinderPuzzle : Puzzle
             Collider2D col = Physics2D.OverlapCircle(worldPos, 0.2f);
             if (col != null)
             {
+                ac.PlaySFX(onRotatePiece);
                 col.GetComponent<PathPiece>().RotatePiece(() => {
                     CheckForPathCompletition();
                 });
@@ -83,6 +90,7 @@ public class PathFinderPuzzle : Puzzle
     public override void PauseGame()
     {
         Debug.Log("PAUSING GAME");
+        paused = true;
         GameObject.FindGameObjectWithTag("UI").GetComponent<MenuController>().SwapMenu(1);
         paused = true;
     }
@@ -90,6 +98,7 @@ public class PathFinderPuzzle : Puzzle
     public override void ResumeGame()
     {
         Debug.Log("RESUMING GAME");
+        paused = false;
         GameObject.FindGameObjectWithTag("UI").GetComponent<MenuController>().SwapMenu(0);
         paused = false;
     }
@@ -129,6 +138,7 @@ public class PathFinderPuzzle : Puzzle
             if (testPath[testPath.Length - 1] == endNode)
             {
                 Debug.Log("GAME COMPLETED!");
+                ac.PlaySFX(onGameCompleted);
                 SceneManager.LoadScene(0);
             }
             else

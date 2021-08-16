@@ -22,7 +22,11 @@ public class PieceSlider : Puzzle
     [SerializeField] private LayerMask piecesLayer;
     [SerializeField] private SpriteRenderer board;
     [SerializeField] private Vector3 cameraOffset;
+    [Header("Sounds")]
+    [SerializeField] private AudioClip onSlide;
+    [SerializeField] private AudioClip onGameCompleted;
 
+    private AudioController ac;
     private SlidingPiece[,] activePieces;
     private Vector2Int emptyTile = Vector2Int.zero;
     private SlidingPiece hiddenPiece;
@@ -38,6 +42,7 @@ public class PieceSlider : Puzzle
     {
         base.StartPuzzle();
         blockInput = true;
+        ac = GameObject.FindGameObjectWithTag("AudioController").GetComponent<AudioController>();
         Utils.SetCameraInMiddleOfGrid(cameraOffset, Camera.main, gridSize, gridBorder);
         SetupGrid();
         ScaleBorder();
@@ -58,6 +63,11 @@ public class PieceSlider : Puzzle
 
     private void Update()
     {
+        if(paused)
+        {
+            return;
+        }
+
         if(Input.GetMouseButtonDown(0))
         {
             if (blockInput)
@@ -68,7 +78,7 @@ public class PieceSlider : Puzzle
             Vector2Int clickPosition = GetPieceAtPointerPos();
             if (clickPosition != -Vector2Int.one)
             {
-                CheckForSlide(clickPosition, lerpTime, () => { CheckForEndGame(); });
+                CheckForSlide(clickPosition, lerpTime, () => { CheckForEndGame(); }, true);
             }
         }
         /*
@@ -84,61 +94,7 @@ public class PieceSlider : Puzzle
         */
     }
 
-
-
-    /*
-    private void CheckForSlide(Vector2Int coords)
-    {
-        if(sliding)
-        {
-            return;
-        }
-        bool canSlide = false;
-        if(coords.y == emptyTile.y)
-        {
-            canSlide = true;
-        }
-        if (coords.x == emptyTile.x)
-        {
-            canSlide = true;
-        }
-        if(canSlide)
-        {
-            sliding = true;
-            Vector2 normDir = ((Vector2)emptyTile - (Vector2)coords).normalized;
-            Vector2Int direction = new Vector2Int(Mathf.RoundToInt(normDir.x), Mathf.RoundToInt(normDir.y));
-            Vector2Int ogPos = coords;
-            //Debug.Log("Clicked "+ ogPos + " Direction " + direction);
-            Vector2Int workingTile = emptyTile - direction;
-            int emergencyCounter = 0;
-            bool samePos = false;
-            while (!samePos || emergencyCounter < 100)
-            {
-                if (emptyTile.x == ogPos.x && emptyTile.y == ogPos.y)
-                {
-                    samePos = true;
-                    break;
-                }
-                //Debug.Log(emergencyCounter + " action is moving (WT)" + workingTile + " to (ET)" + emptyTile);
-                //Display movement
-                LeanTween.move(activePieces[workingTile.x, workingTile.y].gameObject, new Vector3(emptyTile.x, emptyTile.y, 0), lerpTime).setOnComplete(()=> {
-                    CheckForEndGame();
-                    sliding = false;
-                });
-                //update gridValues
-                SlidingPiece emptyPiece = activePieces[emptyTile.x, emptyTile.y];
-                activePieces[emptyTile.x, emptyTile.y] = activePieces[workingTile.x, workingTile.y];
-                activePieces[workingTile.x, workingTile.y] = emptyPiece;
-                //calculate next moving piece
-                emptyTile = workingTile;
-                workingTile -= direction;
-                //Debug.Log("(ET)" + emptyTile + " | (OG)" + ogPos);
-                emergencyCounter++;
-            }
-        }
-    }
-    */
-    private void CheckForSlide(Vector2Int coords, float leantime, Action onEnd)
+    private void CheckForSlide(Vector2Int coords, float leantime, Action onEnd, bool sound)
     {
         if (sliding)
         {
@@ -184,6 +140,10 @@ public class PieceSlider : Puzzle
                 //calculate next moving piece
                 emptyTile = workingTile;
                 workingTile -= direction;
+                if(sound)
+                {
+                    ac.PlaySFX(onSlide);
+                }
                 //Debug.Log("(ET)" + emptyTile + " | (OG)" + ogPos);
                 emergencyCounter++;
             }
@@ -204,7 +164,7 @@ public class PieceSlider : Puzzle
                 SlidingPiece sp = activePieces[x, y];
                 if (sp.TGTPos != new Vector2Int(x,y))
                 {
-                    Debug.Log("has not completed game!");
+                    //Debug.Log("has not completed game!");
                     canEndGame = false;
                     return;
                 }
@@ -223,6 +183,7 @@ public class PieceSlider : Puzzle
         activePieces[emptyTile.x, emptyTile.y].gameObject.SetActive(true);
         transform.SetParent(board.transform);
         LeanTween.scale(board.gameObject, transform.localScale * 1.1f, 0.2f).setLoopPingPong(2);
+        ac.PlaySFX(onGameCompleted);
         Debug.Log("GameCompleted");
     }
 
@@ -300,7 +261,7 @@ public class PieceSlider : Puzzle
             CheckForSlide(gen, 0.05f, () => {
                 idx++;
                 //Debug.Log("trying to move to " + gen);
-            });
+            }, false);
             yield return null;
         }
         blockInput = false;
@@ -384,6 +345,27 @@ public class PieceSlider : Puzzle
             }
         }
         return fixedTable;
+    }
+
+    public override void PauseGame()
+    {
+        Debug.Log("PAUSING GAME");
+        GameObject.FindGameObjectWithTag("UI").GetComponent<MenuController>().SwapMenu(1);
+        paused = true;
+    }
+
+    public override void ResumeGame()
+    {
+        Debug.Log("RESUMING GAME");
+        GameObject.FindGameObjectWithTag("UI").GetComponent<MenuController>().SwapMenu(0);
+        paused = false;
+    }
+
+    public override void RestartGame()
+    {
+        Debug.Log("RESETTING GAME");
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex);
     }
 }
 
