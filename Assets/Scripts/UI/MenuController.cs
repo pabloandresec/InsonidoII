@@ -18,10 +18,19 @@ public class MenuController : MonoBehaviour
     protected Button bu;
     [SerializeField] protected bool unfadeOnStart = true;
 
+    private AudioController ac;
 
     private void Awake()
     {
         Init();
+        if (ac == null)
+        {
+            GameObject game = GameObject.FindGameObjectWithTag("AudioController");
+            if (game != null)
+            {
+                ac = game.GetComponent<AudioController>();
+            }
+        }
     }
 
     protected virtual void Init()
@@ -151,6 +160,16 @@ public class MenuController : MonoBehaviour
         }
 
         return t;
+    }
+
+    public void SetSFXVol(float val)
+    {
+        ac.SetSFXVol(val);
+    }
+
+    public void SetMusicVol(float val)
+    {
+        ac.SetMusicVol(val);
     }
 
     public void LoadScene(int index)

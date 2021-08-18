@@ -93,6 +93,12 @@ public class PieceSlider : Puzzle
             CheckForEndGame();
         }
         */
+        if (Input.GetKeyDown(KeyCode.KeypadDivide))
+        {
+            activePieces = FixPuzzle();
+            CheckForEndGame();
+            //EndGame();
+        }
     }
 
     private void CheckForSlide(Vector2Int coords, float leantime, Action onEnd, bool sound)
@@ -183,7 +189,7 @@ public class PieceSlider : Puzzle
     {
         activePieces[emptyTile.x, emptyTile.y].gameObject.SetActive(true);
         transform.SetParent(board.transform);
-        LeanTween.scale(board.gameObject, transform.localScale * 1.1f, 0.2f).setLoopPingPong(2);
+        LeanTween.scale(board.gameObject, transform.localScale * 1.1f, 0.2f).setLoopPingPong(2).setOnComplete(() => { LoadNextLevel(); });
         ac.PlaySFX(onGameCompleted);
         Debug.Log("GameCompleted");
     }

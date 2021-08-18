@@ -4,12 +4,14 @@ using UnityEngine;
 using Cinemachine;
 using TMPro;
 using System;
+using UnityEngine.SceneManagement;
 
 public abstract class Puzzle : MonoBehaviour
 {
 #pragma warning disable 0649
 
     [SerializeField] private TextMeshProUGUI DebugText;
+    [SerializeField] private string nextLevelName;
     [SerializeField] protected SpriteRenderer spriteRenderer;
     [SerializeField] protected SpriteRenderer tutorial;
 
@@ -53,6 +55,11 @@ public abstract class Puzzle : MonoBehaviour
     public virtual void ShowTutorial(bool show)
     {
 
+    }
+
+    public void LoadNextLevel()
+    {
+        SceneManager.LoadScene(nextLevelName);
     }
 
     public static void SetMobileDebugState(bool state)

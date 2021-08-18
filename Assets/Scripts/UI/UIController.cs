@@ -5,19 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class UIController : MenuController
 {
-    private AudioController ac;
-
-    private void Start()
-    {
-        if(ac == null)
-        {
-            GameObject game = GameObject.FindGameObjectWithTag("AudioController");
-            if(game != null)
-            {
-                ac = game.GetComponent<AudioController>();
-            }
-        }
-    }
+    
 
     public void LoadSceneAsync(int x)
     {
@@ -70,15 +58,5 @@ public class UIController : MenuController
                 SwitchMenu(0);
             }
         }
-    }
-
-    public void SetSFXVol(float val)
-    {
-        ac.SetSFXVol(val);
-    }
-
-    public void SetMusicVol(float val)
-    {
-        ac.SetMusicVol(val);
     }
 }

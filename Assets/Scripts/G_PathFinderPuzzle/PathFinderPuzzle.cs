@@ -86,6 +86,10 @@ public class PathFinderPuzzle : Puzzle
                 });
             }
         }
+        if (Input.GetKeyDown(KeyCode.KeypadDivide))
+        {
+            EndGame();
+        }
     }
 
     public override void PauseGame()
@@ -145,9 +149,7 @@ public class PathFinderPuzzle : Puzzle
         {
             if (testPath[testPath.Length - 1] == endNode)
             {
-                Debug.Log("GAME COMPLETED!");
-                ac.PlaySFX(onGameCompleted);
-                SceneManager.LoadScene(0);
+                EndGame();
             }
             else
             {
@@ -168,6 +170,14 @@ public class PathFinderPuzzle : Puzzle
                 pp.ToggleColliderForRotation();
             }
         }
+    }
+
+    private void EndGame()
+    {
+        Debug.Log("GAME COMPLETED!");
+        ac.PlaySFX(onGameCompleted);
+        piecesParent.SetParent(board.transform);
+        LeanTween.scale(board.gameObject, transform.localScale * 1.1f, 0.2f).setLoopPingPong(2).setOnComplete(() => { LoadNextLevel(); });
     }
 
     private void GeneratePath()

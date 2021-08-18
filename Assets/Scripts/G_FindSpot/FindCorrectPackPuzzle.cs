@@ -204,16 +204,26 @@ public class FindCorrectPackPuzzle : Puzzle
             camNoise.m_AmplitudeGain = 0;
             draggingObject = null;
         }
+        if (Input.GetKeyDown(KeyCode.KeypadDivide))
+        {
+            EndGame();
+        }
     }
 
     private void CheckGameCompletition()
     {
         if(itemsParent.childCount == 0)
         {
-            ac.PlaySFX(onGameCompleted);
-            Debug.Log("GAME COMPLETED!");
-            SceneManager.LoadScene(0);
+            EndGame();
         }
+    }
+
+    private void EndGame()
+    {
+        ac.PlaySFX(onGameCompleted);
+        Debug.Log("GAME COMPLETED!");
+        transform.SetParent(board.transform);
+        LeanTween.scale(board.gameObject, transform.localScale * 1.1f, 0.2f).setLoopPingPong(2).setOnComplete(() => { LoadNextLevel(); });
     }
 
     private Transform GetTGT(Transform key)

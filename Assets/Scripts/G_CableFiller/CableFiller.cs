@@ -131,6 +131,27 @@ public class CableFiller : Puzzle
             CancelDrawing();
             CheckForCompletition();
         }
+        if (Input.GetKeyDown(KeyCode.KeypadDivide))
+        {
+            EndGame();
+        }
+    }
+
+    private void EndGame()
+    {
+        Debug.Log("Level Complete");
+        ac.PlaySFX(onGameCompleted);
+
+        foreach (CableSegment s in segments)
+        {
+            s.Line.useWorldSpace = false;
+        }
+
+        linesParent.SetParent(board.transform);
+        originPointsParent.SetParent(board.transform);
+        transform.SetParent(board.transform);
+
+        LeanTween.scale(board.gameObject, transform.localScale * 1.1f, 0.2f).setLoopPingPong(2).setOnComplete(() => { LoadNextLevel(); });
     }
 
     private void StartDrawingInstructions()
@@ -219,9 +240,7 @@ public class CableFiller : Puzzle
 
         if(complete)
         {
-            Debug.Log("Level Complete");
-            ac.PlaySFX(onGameCompleted);
-            SceneManager.LoadScene(0);
+            EndGame();
         }
     }
 

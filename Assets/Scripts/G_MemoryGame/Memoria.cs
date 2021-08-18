@@ -121,6 +121,10 @@ public class Memoria : Puzzle
                 });
             }
         }
+        if (Input.GetKeyDown(KeyCode.KeypadDivide))
+        {
+            EndGame();
+        }
     }
 
     public MemoryCard GetCardAtPointerPos()
@@ -185,10 +189,18 @@ public class Memoria : Puzzle
 
         if(completedGame)
         {
-            ac.PlaySFX(onGameCompleted);
-            Debug.Log("GAME COMPLETED!");
+            EndGame();
             //SceneManager.LoadScene(0);
         }
+    }
+
+    private void EndGame()
+    {
+        paused = true;
+        ac.PlaySFX(onGameCompleted);
+        Debug.Log("GAME COMPLETED!");
+        transform.SetParent(board.transform);
+        LeanTween.scale(board.gameObject, transform.localScale * 1.1f, 0.2f).setLoopPingPong(2).setOnComplete(() => { LoadNextLevel(); });
     }
 
     public void WaitForSeconds(float t, Action onWaitComplete)
