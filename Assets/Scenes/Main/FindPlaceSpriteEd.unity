@@ -795,6 +795,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 130322703823522217, guid: 11fdbe0180cae904690438d06f42d1d8, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 130322703823522217, guid: 11fdbe0180cae904690438d06f42d1d8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1781117411744859650, guid: 11fdbe0180cae904690438d06f42d1d8, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1958096802559909540, guid: 11fdbe0180cae904690438d06f42d1d8, type: 3}
       propertyPath: m_Name
       value: UI
@@ -881,6 +893,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1958096802559909544, guid: 11fdbe0180cae904690438d06f42d1d8, type: 3}
       propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2451751254439136498, guid: 11fdbe0180cae904690438d06f42d1d8, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5565472310867985359, guid: 11fdbe0180cae904690438d06f42d1d8, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5565472310867985359, guid: 11fdbe0180cae904690438d06f42d1d8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7184958527597713292, guid: 11fdbe0180cae904690438d06f42d1d8, type: 3}
+      propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

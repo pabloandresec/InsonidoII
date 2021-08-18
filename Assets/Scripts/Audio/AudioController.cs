@@ -21,6 +21,17 @@ public class AudioController : MonoBehaviour
 
     private bool courutine = false;
 
+    public void SetSFXVol(float value)
+    {
+        float normValue = Utils.ConvertRangedValueToAnotherRange(value, new FloatRange(0, 100), new FloatRange(-80, 0));
+        sfxMixer.SetFloat("volume", normValue);
+    }
+
+    public void SetMusicVol(float value)
+    {
+        float normValue = Utils.ConvertRangedValueToAnotherRange(value, new FloatRange(0, 100), new FloatRange(-80, 0));
+        musicMixer.SetFloat("volume", normValue);
+    }
 
     private void Start()
     {

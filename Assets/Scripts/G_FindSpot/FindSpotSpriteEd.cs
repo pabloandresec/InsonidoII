@@ -88,7 +88,7 @@ public class FindSpotSpriteEd : Puzzle
         camNoise = cam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         camNoise.m_AmplitudeGain = 0;
 
-        ResizeSpriteToScreen(cam);
+        ResizeSpriteToScreen(cam, spriteRenderer);
         //Camera.main.transform.position -= new Vector3(0, borderSize / 2, 0);
     }
 

@@ -47,7 +47,8 @@ public class PieceSlider : Puzzle
         SetupGrid();
         ScaleBorder();
 
-        ResizeSpriteToScreen(Camera.main);
+        ResizeSpriteToScreen(Camera.main, spriteRenderer);
+        ResizeSpriteToScreen(Camera.main, tutorial);
     }
 
     private void ScaleBorder()
@@ -366,6 +367,12 @@ public class PieceSlider : Puzzle
         Debug.Log("RESETTING GAME");
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex);
+    }
+    public override void ShowTutorial(bool show)
+    {
+        Debug.Log("SHOWING TUTORIAL -> " + show);
+        paused = show;
+        tutorial.gameObject.SetActive(show);
     }
 }
 

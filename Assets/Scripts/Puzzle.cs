@@ -10,7 +10,8 @@ public abstract class Puzzle : MonoBehaviour
 #pragma warning disable 0649
 
     [SerializeField] private TextMeshProUGUI DebugText;
-    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] protected SpriteRenderer spriteRenderer;
+    [SerializeField] protected SpriteRenderer tutorial;
 
     private static bool debug;
     private static TextMeshProUGUI uguiRef;
@@ -49,6 +50,11 @@ public abstract class Puzzle : MonoBehaviour
 
     }
 
+    public virtual void ShowTutorial(bool show)
+    {
+
+    }
+
     public static void SetMobileDebugState(bool state)
     {
         debug = state;
@@ -70,42 +76,42 @@ public abstract class Puzzle : MonoBehaviour
 
     
 
-    public void ResizeSpriteToScreen(Camera cam)
+    public void ResizeSpriteToScreen(Camera cam, SpriteRenderer sprite)
     {
         Debug.Log("Resizing Sprite!");
-        if (spriteRenderer == null) return;
+        if (sprite == null) return;
         //Set vars
         Vector3 camPos = cam.transform.position;
-        spriteRenderer.transform.localScale = new Vector3(1, 1, 1);
+        sprite.transform.localScale = new Vector3(1, 1, 1);
 
         //Get Sizes
-        float width = spriteRenderer.sprite.bounds.size.x;
-        float height = spriteRenderer.sprite.bounds.size.y;
+        float width = sprite.sprite.bounds.size.x;
+        float height = sprite.sprite.bounds.size.y;
 
         float worldScreenHeight = cam.orthographicSize * 2.0f;
         float worldScreenWidth = worldScreenHeight / Screen.height * Screen.width;
 
         //Set values
-        spriteRenderer.transform.localScale = new Vector3(worldScreenWidth / width, worldScreenHeight / height, 1);
-        spriteRenderer.transform.position = new Vector3(camPos.x, camPos.y, 0);
+        sprite.transform.localScale = new Vector3(worldScreenWidth / width, worldScreenHeight / height, 1);
+        sprite.transform.position = new Vector3(camPos.x, camPos.y, 0);
     }
-    public void ResizeSpriteToScreen(CinemachineVirtualCamera cam)
+    public void ResizeSpriteToScreen(CinemachineVirtualCamera cam, SpriteRenderer sprite)
     {
         Debug.Log("Resizing Sprite!");
-        if (spriteRenderer == null) return;
+        if (sprite == null) return;
         //Set vars
         Vector3 camPos = cam.transform.position;
-        spriteRenderer.transform.localScale = new Vector3(1, 1, 1);
+        sprite.transform.localScale = new Vector3(1, 1, 1);
 
         //Get Sizes
-        float width = spriteRenderer.sprite.bounds.size.x;
-        float height = spriteRenderer.sprite.bounds.size.y;
+        float width = sprite.sprite.bounds.size.x;
+        float height = sprite.sprite.bounds.size.y;
 
         float worldScreenHeight = cam.m_Lens.OrthographicSize * 2.0f;
         float worldScreenWidth = worldScreenHeight / Screen.height * Screen.width;
 
         //Set values
-        spriteRenderer.transform.localScale = new Vector3(worldScreenWidth / width, worldScreenHeight / height, 1);
-        spriteRenderer.transform.position = new Vector3(camPos.x, camPos.y, 0);
+        sprite.transform.localScale = new Vector3(worldScreenWidth / width, worldScreenHeight / height, 1);
+        sprite.transform.position = new Vector3(camPos.x, camPos.y, 0);
     }
 }

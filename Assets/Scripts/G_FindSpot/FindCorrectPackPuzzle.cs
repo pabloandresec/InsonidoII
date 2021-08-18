@@ -45,7 +45,8 @@ public class FindCorrectPackPuzzle : Puzzle
         SetupPacks();
         SetBounds();
         SetupCamera();
-        ResizeSpriteToScreen(cam);
+        ResizeSpriteToScreen(cam, spriteRenderer);
+        ResizeSpriteToScreen(cam, tutorial);
         SetBorders();
 
         ac = GameObject.FindGameObjectWithTag("AudioController").GetComponent<AudioController>();
@@ -254,6 +255,13 @@ public class FindCorrectPackPuzzle : Puzzle
         Debug.Log("RESETTING GAME");
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex);
+    }
+
+    public override void ShowTutorial(bool show)
+    {
+        Debug.Log("SHOWING TUTORIAL -> " + show);
+        paused = show;
+        tutorial.gameObject.SetActive(show);
     }
 }
 

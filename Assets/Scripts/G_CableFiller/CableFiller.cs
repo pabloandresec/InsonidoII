@@ -52,14 +52,22 @@ public class CableFiller : Puzzle
         Utils.SetCameraInMiddleOfGrid(new Vector3(1, 1, 0), Camera.main, gridSize, gridBorder);
         board.transform.position = new Vector3(((float)gridSize.x / 2) - 0.5f, ((float)gridSize.y / 2) - 0.5f, 0);
         board.size = new Vector2(gridSize.x + 0.5f, gridSize.y + 0.5f);
-        ResizeSpriteToScreen(Camera.main);
+        ResizeSpriteToScreen(Camera.main, spriteRenderer);
+        ResizeSpriteToScreen(Camera.main, tutorial);
         bar.parent.GetComponent<SpriteRenderer>().size = new Vector2(gridSize.x + 0.5f, bar.parent.GetComponent<SpriteRenderer>().size.y);
         bar.localScale = new Vector3(gridSize.x, bar.localScale.y);
         maxBarScale = bar.localScale.x;
         snapPointsAmount = gridSize.x * gridSize.y;
         barRend = bar.GetComponent<SpriteRenderer>();
         ac = GameObject.FindGameObjectWithTag("AudioController").GetComponent<AudioController>();
+
+
         LerpBar(0f);
+    }
+
+    private void ResizeSpriteToScreen(SpriteRenderer tutorial)
+    {
+        throw new NotImplementedException();
     }
 
     private void Update()
@@ -516,5 +524,11 @@ public class CableFiller : Puzzle
         Debug.Log("RESETTING GAME");
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex);
+    }
+    public override void ShowTutorial(bool show)
+    {
+        Debug.Log("SHOWING TUTORIAL -> " + show);
+        paused = show;
+        tutorial.gameObject.SetActive(show);
     }
 }

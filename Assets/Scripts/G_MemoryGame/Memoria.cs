@@ -46,7 +46,9 @@ public class Memoria : Puzzle
         board.transform.position = boardBounds.center;
         //board.size = new Vector2(gridSize.x + 0.5f, gridSize.y + 0.5f);
         board.size = boardBounds.size + boardScaleOffset;
-        ResizeSpriteToScreen(Camera.main);
+
+        ResizeSpriteToScreen(Camera.main, spriteRenderer);
+        ResizeSpriteToScreen(Camera.main, tutorial);
 
         ac = GameObject.FindGameObjectWithTag("AudioController").GetComponent<AudioController>();
     }
@@ -219,5 +221,12 @@ public class Memoria : Puzzle
         Debug.Log("RESETTING GAME");
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex);
+    }
+
+    public override void ShowTutorial(bool show)
+    {
+        Debug.Log("SHOWING TUTORIAL -> " + show);
+        paused = show;
+        tutorial.gameObject.SetActive(show);
     }
 }

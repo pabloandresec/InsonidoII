@@ -61,7 +61,8 @@ public class PathFinderPuzzle : Puzzle
         board.transform.position = new Vector3(((float)gridSize.x / 2) - 0.5f, ((float)gridSize.y / 2) - 0.5f, 0);
         board.size = new Vector2(gridSize.x + boardBorderSize, gridSize.y + boardBorderSize);
 
-        ResizeSpriteToScreen(Camera.main);
+        ResizeSpriteToScreen(Camera.main, spriteRenderer);
+        ResizeSpriteToScreen(Camera.main, tutorial);
 
         ac = GameObject.FindGameObjectWithTag("AudioController").GetComponent<AudioController>();
     }
@@ -108,6 +109,13 @@ public class PathFinderPuzzle : Puzzle
         Debug.Log("RESETTING GAME");
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex);
+    }
+
+    public override void ShowTutorial(bool show)
+    {
+        Debug.Log("SHOWING TUTORIAL -> " + show);
+        paused = show;
+        tutorial.gameObject.SetActive(show);
     }
 
     private void CheckForPathCompletition()
