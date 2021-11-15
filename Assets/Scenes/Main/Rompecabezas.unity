@@ -474,8 +474,9 @@ MonoBehaviour:
   nextLevelName: Cutscene2
   spriteRenderer: {fileID: 101328505}
   tutorial: {fileID: 858438637}
+  ui: {fileID: 1095953710}
   gridSize: {x: 3, y: 3}
-  centerPieceCoord: {x: 1, y: 1}
+  centerPieceCoord: {x: 0, y: 2}
   pieces:
   - {fileID: 6507835475563532855, guid: 6d7e98db3c875a246b86acf4ca1ebd2c, type: 3}
   - {fileID: -1838975434155653952, guid: 6d7e98db3c875a246b86acf4ca1ebd2c, type: 3}
@@ -795,6 +796,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11fdbe0180cae904690438d06f42d1d8, type: 3}
+--- !u!114 &1095953710 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1958096802559909551, guid: 11fdbe0180cae904690438d06f42d1d8, type: 3}
+  m_PrefabInstance: {fileID: 1095953709}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c44787a4bac51994ca91a6eb0c9fbb41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1469607931
 GameObject:
   m_ObjectHideFlags: 0
@@ -828,6 +840,7 @@ MonoBehaviour:
   nextLevelName: Cutscene2
   spriteRenderer: {fileID: 101328505}
   tutorial: {fileID: 858438637}
+  ui: {fileID: 0}
   gridSize: {x: 3, y: 3}
   centerPieceCoord: {x: 1, y: 1}
   pieces:

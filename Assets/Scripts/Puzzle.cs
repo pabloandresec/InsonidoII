@@ -14,10 +14,14 @@ public abstract class Puzzle : MonoBehaviour
     [SerializeField] private string nextLevelName;
     [SerializeField] protected SpriteRenderer spriteRenderer;
     [SerializeField] protected SpriteRenderer tutorial;
+    [SerializeField] private UIController ui; 
 
     private static bool debug;
     private static TextMeshProUGUI uguiRef;
+    protected bool gameStarted = false;
     protected bool paused = false;
+
+    public bool GameStarted { get => gameStarted; }
 
 #pragma warning restore 0649
 
@@ -26,6 +30,7 @@ public abstract class Puzzle : MonoBehaviour
     {
         uguiRef = DebugText;
         StartPuzzle();
+        ui.RequestTutoria(true);
     }
 
     public virtual void PauseGame()

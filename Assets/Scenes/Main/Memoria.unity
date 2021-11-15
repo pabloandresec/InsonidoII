@@ -635,6 +635,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11fdbe0180cae904690438d06f42d1d8, type: 3}
+--- !u!114 &747243929 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1958096802559909551, guid: 11fdbe0180cae904690438d06f42d1d8, type: 3}
+  m_PrefabInstance: {fileID: 747243928}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c44787a4bac51994ca91a6eb0c9fbb41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &844597283
 GameObject:
   m_ObjectHideFlags: 0
@@ -904,6 +915,7 @@ MonoBehaviour:
   nextLevelName: Caminos
   spriteRenderer: {fileID: 2032539595}
   tutorial: {fileID: 1315049740}
+  ui: {fileID: 0}
   gridSize: {x: 6, y: 5}
   cardPrefab: {fileID: 2170657445140195915, guid: c29e97de01111df44adb8d2b8d3d2308, type: 3}
   sprites:
@@ -1144,6 +1156,7 @@ MonoBehaviour:
   nextLevelName: Caminos
   spriteRenderer: {fileID: 2032539595}
   tutorial: {fileID: 1315049740}
+  ui: {fileID: 0}
   gridSize: {x: 6, y: 5}
   cardPrefab: {fileID: 2170657445140195915, guid: c29e97de01111df44adb8d2b8d3d2308, type: 3}
   sprites:
@@ -1303,6 +1316,7 @@ MonoBehaviour:
   nextLevelName: Caminos
   spriteRenderer: {fileID: 2032539595}
   tutorial: {fileID: 1315049740}
+  ui: {fileID: 747243929}
   gridSize: {x: 5, y: 4}
   cardPrefab: {fileID: 2170657445140195915, guid: c29e97de01111df44adb8d2b8d3d2308, type: 3}
   sprites:

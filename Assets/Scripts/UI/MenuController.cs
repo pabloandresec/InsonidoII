@@ -23,14 +23,6 @@ public class MenuController : MonoBehaviour
     private void Awake()
     {
         Init();
-        if (ac == null)
-        {
-            GameObject game = GameObject.FindGameObjectWithTag("AudioController");
-            if (game != null)
-            {
-                ac = game.GetComponent<AudioController>();
-            }
-        }
     }
 
     protected virtual void Init()
@@ -44,6 +36,14 @@ public class MenuController : MonoBehaviour
             if(unfadeOnStart)
             {
                 UnfadeScreenOverlay();
+            }
+        }
+        if (ac == null)
+        {
+            GameObject game = GameObject.FindGameObjectWithTag("AudioController");
+            if (game != null)
+            {
+                ac = game.GetComponent<AudioController>();
             }
         }
     }

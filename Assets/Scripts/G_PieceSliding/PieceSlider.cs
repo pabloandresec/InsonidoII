@@ -49,6 +49,8 @@ public class PieceSlider : Puzzle
 
         ResizeSpriteToScreen(Camera.main, spriteRenderer);
         ResizeSpriteToScreen(Camera.main, tutorial);
+
+        gameStarted = true;
     }
 
     private void ScaleBorder()

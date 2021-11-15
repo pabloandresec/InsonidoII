@@ -437,6 +437,7 @@ MonoBehaviour:
   nextLevelName: Cables
   spriteRenderer: {fileID: 1214817431}
   tutorial: {fileID: 2016038100}
+  ui: {fileID: 1958096802246534420}
   gridSize: {x: 8, y: 8}
   pieces:
   - {fileID: 8094206579339964923, guid: 6e3645c8be998e340982582fff1b07ff, type: 3}
@@ -1214,3 +1215,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11fdbe0180cae904690438d06f42d1d8, type: 3}
+--- !u!114 &1958096802246534420 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1958096802559909551, guid: 11fdbe0180cae904690438d06f42d1d8, type: 3}
+  m_PrefabInstance: {fileID: 1958096802246534419}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c44787a4bac51994ca91a6eb0c9fbb41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

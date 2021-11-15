@@ -50,6 +50,8 @@ public class Memoria : Puzzle
         ResizeSpriteToScreen(Camera.main, spriteRenderer);
         ResizeSpriteToScreen(Camera.main, tutorial);
 
+        gameStarted = true;
+
         ac = GameObject.FindGameObjectWithTag("AudioController").GetComponent<AudioController>();
     }
 

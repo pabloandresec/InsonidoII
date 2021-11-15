@@ -16,6 +16,22 @@ public class UIController : MenuController
         SceneManager.LoadSceneAsync(name);
     }
 
+    public void RequestStartGame()
+    {
+        Puzzle currentgame = GameObject.FindGameObjectWithTag("GameController").GetComponent<Puzzle>();
+        if (currentgame != null)
+        {
+            if(!currentgame.GameStarted)
+            {
+                currentgame.StartPuzzle();
+            }
+            else
+            {
+                RequestTutoria(false);
+            }
+        }
+    }
+
     public void RequestPause()
     {
         Puzzle currentgame = GameObject.FindGameObjectWithTag("GameController").GetComponent<Puzzle>();

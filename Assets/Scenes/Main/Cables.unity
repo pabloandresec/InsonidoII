@@ -385,6 +385,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11fdbe0180cae904690438d06f42d1d8, type: 3}
+--- !u!114 &672728402 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1958096802559909551, guid: 11fdbe0180cae904690438d06f42d1d8, type: 3}
+  m_PrefabInstance: {fileID: 672728401}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c44787a4bac51994ca91a6eb0c9fbb41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &822309344
 GameObject:
   m_ObjectHideFlags: 0
@@ -930,6 +941,7 @@ MonoBehaviour:
   nextLevelName: AGuardar
   spriteRenderer: {fileID: 1104349840}
   tutorial: {fileID: 1737260241}
+  ui: {fileID: 672728402}
   gridSize: {x: 5, y: 5}
   snappingPointPrefab: {fileID: 1604304041487015508, guid: 68c95ee562ac22c44827f4003cbbd65e, type: 3}
   segments:

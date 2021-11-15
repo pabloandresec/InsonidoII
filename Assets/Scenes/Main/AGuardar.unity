@@ -123,6 +123,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &30199565 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1958096802559909551, guid: 11fdbe0180cae904690438d06f42d1d8, type: 3}
+  m_PrefabInstance: {fileID: 1303262035}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c44787a4bac51994ca91a6eb0c9fbb41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &107093222
 GameObject:
   m_ObjectHideFlags: 0
@@ -356,6 +367,7 @@ MonoBehaviour:
   nextLevelName: Rompecabezas
   spriteRenderer: {fileID: 2097326077}
   tutorial: {fileID: 1453853536}
+  ui: {fileID: 30199565}
   gridSize: {x: 3, y: 5}
   gridStartOffset: {x: 2, y: 0}
   relationships:
@@ -1282,6 +1294,7 @@ MonoBehaviour:
   nextLevelName: Rompecabezas
   spriteRenderer: {fileID: 2097326077}
   tutorial: {fileID: 0}
+  ui: {fileID: 0}
   gridSize: {x: 3, y: 5}
   slotPrefab: {fileID: 5855409303357775123, guid: 082197eb77010e54b9d2cb4972e4afc7, type: 3}
   itemPrefab: {fileID: 6703359194522451384, guid: ab026f815c8e1bf47b2c7fe747c50eea, type: 3}

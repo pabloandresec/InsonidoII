@@ -60,7 +60,7 @@ public class CableFiller : Puzzle
         snapPointsAmount = gridSize.x * gridSize.y;
         barRend = bar.GetComponent<SpriteRenderer>();
         ac = GameObject.FindGameObjectWithTag("AudioController").GetComponent<AudioController>();
-
+        gameStarted = true;
 
         LerpBar(0f);
     }

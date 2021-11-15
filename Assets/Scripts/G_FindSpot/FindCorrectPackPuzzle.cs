@@ -41,13 +41,14 @@ public class FindCorrectPackPuzzle : Puzzle
     {
         base.StartPuzzle();
         
-
         SetupPacks();
         SetBounds();
         SetupCamera();
         ResizeSpriteToScreen(cam, spriteRenderer);
         ResizeSpriteToScreen(cam, tutorial);
         SetBorders();
+
+        gameStarted = true;
 
         ac = GameObject.FindGameObjectWithTag("AudioController").GetComponent<AudioController>();
     }
